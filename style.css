@@ -763,3 +763,38 @@ footer p {
     }
 
 }
+/* NOTE ACTIONS */
+
+.note-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.edit-button {
+    padding: 8px 13px;
+    background: transparent;
+    color: #d0d8ad;
+    border: 1px solid #3d4630;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.edit-button:hover {
+    background: #d0d8ad;
+    color: #0c0f09;
+}
+
+@media (max-width: 600px) {
+
+    .note-actions {
+        width: 100%;
+    }
+
+    .edit-button,
+    .delete-button {
+        flex: 1;
+    }
+
+}
