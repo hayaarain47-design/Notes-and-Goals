@@ -1,5 +1,5 @@
 /* =========================
-   RANDOM MOTIVATION QUOTES
+   RANDOM MOTIVATION QUOTE
 ========================= */
 
 const quotes = [
@@ -20,11 +20,13 @@ const quotes = [
 const quoteElement =
     document.getElementById("quote");
 
-const randomIndex =
-    Math.floor(Math.random() * quotes.length);
+if (quoteElement) {
+    const randomIndex =
+        Math.floor(Math.random() * quotes.length);
 
-quoteElement.textContent =
-    quotes[randomIndex];
+    quoteElement.textContent =
+        quotes[randomIndex];
+}
 
 
 /* =========================
@@ -53,9 +55,11 @@ function updateProgress() {
         ).length;
 
     const percentage =
-        Math.round(
-            (completedGoals / totalGoals) * 100
-        );
+        totalGoals === 0
+            ? 0
+            : Math.round(
+                (completedGoals / totalGoals) * 100
+            );
 
     progressText.textContent =
         percentage + "%";
@@ -64,34 +68,20 @@ function updateProgress() {
         percentage + "%";
 
 
-    /* Save goals */
-
     const goalStatus = [];
 
     goals.forEach(function(goal) {
-
         goalStatus.push(goal.checked);
-
     });
 
     localStorage.setItem(
         "notesGoalsStatus",
         JSON.stringify(goalStatus)
     );
+
+    updateOverview();
 }
 
-
-goals.forEach(function(goal) {
-
-    goal.addEventListener(
-        "change",
-        updateProgress
-    );
-
-});
-
-
-/* Load saved goals */
 
 function loadGoals() {
 
@@ -110,13 +100,96 @@ function loadGoals() {
     goals.forEach(function(goal, index) {
 
         if (goalStatus[index]) {
-
             goal.checked = true;
-
         }
 
     });
+}
 
+
+goals.forEach(function(goal) {
+
+    goal.addEventListener(
+        "change",
+        updateProgress
+    );
+
+});
+
+
+/* =========================
+   TODAY'S OVERVIEW
+========================= */
+
+function updateOverview() {
+
+    const dateElement =
+        document.getElementById(
+            "current-date"
+        );
+
+    const goalCount =
+        document.getElementById(
+            "goal-count"
+        );
+
+    const overviewProgress =
+        document.getElementById(
+            "overview-progress"
+        );
+
+
+    const today = new Date();
+
+
+    if (dateElement) {
+
+        dateElement.textContent =
+            today.toLocaleDateString(
+                "en-US",
+                {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric"
+                }
+            );
+
+    }
+
+
+    const totalGoals =
+        goals.length;
+
+    const completedGoals =
+        document.querySelectorAll(
+            '.goal input[type="checkbox"]:checked'
+        ).length;
+
+
+    const percentage =
+        totalGoals === 0
+            ? 0
+            : Math.round(
+                (completedGoals / totalGoals) * 100
+            );
+
+
+    if (goalCount) {
+
+        goalCount.textContent =
+            completedGoals +
+            " / " +
+            totalGoals;
+
+    }
+
+
+    if (overviewProgress) {
+
+        overviewProgress.textContent =
+            percentage + "%";
+
+    }
 }
 
 
@@ -142,16 +215,22 @@ function updateTimerDisplay() {
     const seconds =
         timeLeft % 60;
 
+
     const formattedMinutes =
         String(minutes).padStart(2, "0");
 
     const formattedSeconds =
         String(seconds).padStart(2, "0");
 
-    timerDisplay.textContent =
-        formattedMinutes +
-        ":" +
-        formattedSeconds;
+
+    if (timerDisplay) {
+
+        timerDisplay.textContent =
+            formattedMinutes +
+            ":" +
+            formattedSeconds;
+
+    }
 }
 
 
@@ -230,6 +309,7 @@ function formatTime(time) {
 
     hour =
         hour % 12 || 12;
+
 
     return (
         String(hour).padStart(2, "0") +
@@ -333,7 +413,14 @@ function addSchedule() {
 }
 
 
-/* Display timetable */
+function saveSchedules() {
+
+    localStorage.setItem(
+        "notesGoalsSchedules",
+        JSON.stringify(schedules)
+    );
+}
+
 
 function displaySchedules() {
 
@@ -342,30 +429,35 @@ function displaySchedules() {
             "scheduleContainer"
         );
 
+    if (!container) {
+        return;
+    }
 
-    /* Keep default schedules */
+
+    /* Remove previously added cards */
+
+    const savedCards =
+        container.querySelectorAll(
+            ".saved-schedule"
+        );
+
+    savedCards.forEach(function(card) {
+        card.remove();
+    });
+
 
     schedules.forEach(function(item) {
-
-        const existing =
-            document.querySelector(
-                `[data-id="${item.id}"]`
-            );
-
-        if (existing) {
-            return;
-        }
-
 
         const card =
             document.createElement("div");
 
         card.className =
-            "schedule-card";
+            "schedule-card saved-schedule";
+
 
         card.setAttribute(
-            "data-id",
-            item.id
+            "data-day",
+            item.day
         );
 
 
@@ -376,9 +468,7 @@ function displaySchedules() {
                 ${formatTime(item.start)}
 
                 <br>
-
                 -
-
                 <br>
 
                 ${formatTime(item.end)}
@@ -404,17 +494,52 @@ function displaySchedules() {
         container.appendChild(card);
 
     });
+
+
+    highlightToday();
 }
 
 
-/* Save timetable */
+/* =========================
+   HIGHLIGHT TODAY
+========================= */
 
-function saveSchedules() {
+function highlightToday() {
 
-    localStorage.setItem(
-        "notesGoalsSchedules",
-        JSON.stringify(schedules)
-    );
+    const today =
+        new Date().toLocaleDateString(
+            "en-US",
+            {
+                weekday: "long"
+            }
+        );
+
+
+    const cards =
+        document.querySelectorAll(
+            ".saved-schedule"
+        );
+
+
+    cards.forEach(function(card) {
+
+        if (
+            card.dataset.day === today
+        ) {
+
+            card.classList.add(
+                "today-session"
+            );
+
+        } else {
+
+            card.classList.remove(
+                "today-session"
+            );
+
+        }
+
+    });
 }
 
 
@@ -465,8 +590,6 @@ function showReminder(subject) {
     }, 10000);
 
 
-    /* Browser notification */
-
     if (
         "Notification" in window &&
         Notification.permission === "granted"
@@ -485,8 +608,6 @@ function showReminder(subject) {
 }
 
 
-/* Request notification permission */
-
 function requestNotificationPermission() {
 
     if (
@@ -499,8 +620,6 @@ function requestNotificationPermission() {
     }
 }
 
-
-/* Check timetable */
 
 function checkStudyTime() {
 
@@ -578,49 +697,7 @@ function checkStudyTime() {
 
 
 /* =========================
-   SAFE TEXT
-========================= */
-
-function escapeHTML(text) {
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-    div.textContent =
-        text;
-
-    return div.innerHTML;
-}
-
-
-/* =========================
-   START
-========================= */
-
-loadGoals();
-
-updateProgress();
-
-updateTimerDisplay();
-
-displaySchedules();
-
-requestNotificationPermission();
-
-checkStudyTime();
-
-
-/* Check every minute */
-
-setInterval(
-    checkStudyTime,
-    60000
-);
-```javascript
-/* =========================
-   STUDY NOTES
+   NOTES
 ========================= */
 
 let savedNotes =
@@ -694,14 +771,16 @@ function saveNote() {
 }
 
 
-/* DISPLAY NOTES */
-
 function displayNotes() {
 
     const container =
         document.getElementById(
             "savedNotes"
         );
+
+    if (!container) {
+        return;
+    }
 
 
     container.innerHTML = "";
@@ -741,6 +820,48 @@ function displayNotes() {
 }
 
 
-/* LOAD NOTES */
+/* =========================
+   SAFE TEXT
+========================= */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+loadGoals();
+
+updateProgress();
+
+updateOverview();
+
+updateTimerDisplay();
+
+displaySchedules();
 
 displayNotes();
+
+requestNotificationPermission();
+
+checkStudyTime();
+
+
+/* Check study reminder every minute */
+
+setInterval(
+    checkStudyTime,
+    60000
+);
