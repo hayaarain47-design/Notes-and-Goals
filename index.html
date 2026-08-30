@@ -12,7 +12,10 @@
 
     <title>Notes & Goals</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
@@ -20,7 +23,9 @@
 <body>
 
 
-    <!-- STUDY REMINDER -->
+    <!-- =========================
+         REMINDER
+    ========================== -->
 
     <div
         id="reminderBox"
@@ -29,7 +34,9 @@
 
 
 
-    <!-- NAVBAR -->
+    <!-- =========================
+         NAVBAR
+    ========================== -->
 
     <header class="navbar">
 
@@ -37,17 +44,28 @@
             Notes & Goals
         </div>
 
+
         <nav>
 
-            <a href="#home">Home</a>
+            <a href="#home">
+                Home
+            </a>
 
-            <a href="#notes">Notes</a>
+            <a href="#notes">
+                Notes
+            </a>
 
-            <a href="#timetable">Timetable</a>
+            <a href="#timetable">
+                Timetable
+            </a>
 
-            <a href="#goals">Goals</a>
+            <a href="#goals">
+                Goals
+            </a>
 
-            <a href="#timer">Timer</a>
+            <a href="#timer">
+                Timer
+            </a>
 
         </nav>
 
@@ -55,27 +73,36 @@
 
 
 
-    <!-- HERO -->
+    <!-- =========================
+         HERO
+    ========================== -->
 
     <section
         class="hero"
         id="home"
     >
 
+        <div class="hero-overlay"></div>
+
+
         <div class="hero-content">
 
             <p class="small-title">
-                WELCOME TO
+                STUDY • PLAN • ACHIEVE
             </p>
+
 
             <h1>
                 Notes & Goals
             </h1>
 
+
             <p>
-                Plan your study, organize your goals,
-                and make every day count.
+                Organize your studies,
+                plan your day,
+                and stay focused on your goals.
             </p>
+
 
             <a
                 href="#notes"
@@ -90,15 +117,18 @@
 
 
 
-    <!-- MOTIVATION -->
+    <!-- =========================
+         MOTIVATION
+    ========================== -->
 
     <section class="motivation">
 
         <div class="section-heading">
 
             <p>
-                YOUR DAILY MOTIVATION
+                DAILY MOTIVATION
             </p>
+
 
             <h2>
                 Keep Going
@@ -113,9 +143,11 @@
                 “
             </span>
 
+
             <p id="quote">
                 Small progress is still progress.
             </p>
+
 
             <span class="quote-mark right">
                 ”
@@ -127,7 +159,9 @@
 
 
 
-    <!-- TODAY'S OVERVIEW -->
+    <!-- =========================
+         OVERVIEW
+    ========================== -->
 
     <section class="overview-section">
 
@@ -136,6 +170,7 @@
             <p>
                 YOUR DAY AT A GLANCE
             </p>
+
 
             <h2>
                 Today's Overview
@@ -149,67 +184,78 @@
 
             <div class="overview-card">
 
-                <div class="overview-icon">
+                <span class="overview-label">
                     DATE
-                </div>
+                </span>
+
 
                 <h3 id="current-date">
                     Loading...
                 </h3>
 
+
                 <p>
-                    Keep moving forward
+                    Make today count
                 </p>
 
             </div>
 
 
+
             <div class="overview-card">
 
-                <div class="overview-icon">
+                <span class="overview-label">
                     GOALS
-                </div>
+                </span>
+
 
                 <h3 id="goal-count">
-                    0 / 4
+                    0 / 0
                 </h3>
 
+
                 <p>
-                    Goals completed
+                    Completed goals
                 </p>
 
             </div>
 
 
+
             <div class="overview-card">
 
-                <div class="overview-icon">
+                <span class="overview-label">
                     PROGRESS
-                </div>
+                </span>
+
 
                 <h3 id="overview-progress">
                     0%
                 </h3>
 
+
                 <p>
-                    Today's progress
+                    Daily progress
                 </p>
 
             </div>
 
 
+
             <div class="overview-card">
 
-                <div class="overview-icon">
+                <span class="overview-label">
                     FOCUS
-                </div>
+                </span>
+
 
                 <h3>
                     25 min
                 </h3>
 
+
                 <p>
-                    Study timer
+                    Default session
                 </p>
 
             </div>
@@ -221,7 +267,9 @@
 
 
 
-    <!-- NOTES -->
+    <!-- =========================
+         NOTES
+    ========================== -->
 
     <section
         class="section notes-section"
@@ -234,9 +282,15 @@
                 WRITE IT DOWN
             </p>
 
+
             <h2>
                 My Study Notes
             </h2>
+
+
+            <span class="section-subtitle">
+                Save important ideas and revise them later.
+            </span>
 
         </div>
 
@@ -275,7 +329,9 @@
 
 
 
-    <!-- TIMETABLE -->
+    <!-- =========================
+         TIMETABLE
+    ========================== -->
 
     <section
         class="section timetable-section"
@@ -288,9 +344,15 @@
                 PLAN YOUR WEEK
             </p>
 
+
             <h2>
                 Study Timetable
             </h2>
+
+
+            <span class="section-subtitle">
+                Set your study sessions and get reminders.
+            </span>
 
         </div>
 
@@ -299,6 +361,7 @@
         <!-- ADD SESSION -->
 
         <div class="schedule-form">
+
 
             <input
                 type="text"
@@ -352,6 +415,7 @@
                         Start Time
                     </label>
 
+
                     <input
                         type="time"
                         id="startTime"
@@ -365,6 +429,7 @@
                     <label>
                         End Time
                     </label>
+
 
                     <input
                         type="time"
@@ -387,7 +452,7 @@
 
 
 
-        <!-- WEEKLY DAYS -->
+        <!-- WEEK DAYS -->
 
         <div class="week-days">
 
@@ -398,12 +463,14 @@
                 Monday
             </div>
 
+
             <div
                 class="week-day"
                 data-weekday="Tuesday"
             >
                 Tuesday
             </div>
+
 
             <div
                 class="week-day"
@@ -412,12 +479,14 @@
                 Wednesday
             </div>
 
+
             <div
                 class="week-day"
                 data-weekday="Thursday"
             >
                 Thursday
             </div>
+
 
             <div
                 class="week-day"
@@ -426,12 +495,14 @@
                 Friday
             </div>
 
+
             <div
                 class="week-day"
                 data-weekday="Saturday"
             >
                 Saturday
             </div>
+
 
             <div
                 class="week-day"
@@ -444,82 +515,20 @@
 
 
 
-        <!-- SCHEDULE LIST -->
+        <!-- SAVED SCHEDULES -->
 
         <div
             class="timetable-container"
             id="scheduleContainer"
-        >
-
-            <div class="schedule-card">
-
-                <div class="time">
-                    04:00 PM
-                </div>
-
-                <div class="subject">
-
-                    <h3>
-                        Mathematics
-                    </h3>
-
-                    <p>
-                        Monday • Practice & Revision
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="schedule-card">
-
-                <div class="time">
-                    05:30 PM
-                </div>
-
-                <div class="subject">
-
-                    <h3>
-                        Computer Science
-                    </h3>
-
-                    <p>
-                        Tuesday • Programming Practice
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="schedule-card">
-
-                <div class="time">
-                    07:00 PM
-                </div>
-
-                <div class="subject">
-
-                    <h3>
-                        Physics
-                    </h3>
-
-                    <p>
-                        Wednesday • Concept Revision
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
+        ></div>
 
     </section>
 
 
 
-    <!-- GOALS -->
+    <!-- =========================
+         GOALS
+    ========================== -->
 
     <section
         class="section goals-section"
@@ -532,73 +541,49 @@
                 STAY CONSISTENT
             </p>
 
+
             <h2>
                 Today's Goals
             </h2>
 
+
+            <span class="section-subtitle">
+                Add small goals and complete them one by one.
+            </span>
+
+        </div>
+
+
+
+        <!-- ADD GOAL -->
+
+        <div class="goal-form">
+
+            <input
+                type="text"
+                id="goalInput"
+                placeholder="Write a new goal..."
+            >
+
+
+            <button
+                class="olive-button"
+                onclick="addGoal()"
+            >
+                + Add Goal
+            </button>
+
         </div>
 
 
-        <div class="goals-container">
 
+        <!-- GOALS -->
 
-            <div class="goal">
+        <div
+            class="goals-container"
+            id="goalsContainer"
+        ></div>
 
-                <input
-                    type="checkbox"
-                    id="goal1"
-                >
-
-                <label for="goal1">
-                    Complete today's notes
-                </label>
-
-            </div>
-
-
-            <div class="goal">
-
-                <input
-                    type="checkbox"
-                    id="goal2"
-                >
-
-                <label for="goal2">
-                    Revise one chapter
-                </label>
-
-            </div>
-
-
-            <div class="goal">
-
-                <input
-                    type="checkbox"
-                    id="goal3"
-                >
-
-                <label for="goal3">
-                    Practice 10 questions
-                </label>
-
-            </div>
-
-
-            <div class="goal">
-
-                <input
-                    type="checkbox"
-                    id="goal4"
-                >
-
-                <label for="goal4">
-                    Review difficult topics
-                </label>
-
-            </div>
-
-
-        </div>
 
 
         <!-- PROGRESS -->
@@ -610,6 +595,7 @@
                 <span>
                     Daily Progress
                 </span>
+
 
                 <span id="progress-text">
                     0%
@@ -632,118 +618,122 @@
 
 
 
-<!-- =========================
-     STUDY TIMER
-========================= -->
+    <!-- =========================
+         TIMER
+    ========================== -->
 
-<section
-    class="section timer-section"
-    id="timer"
->
+    <section
+        class="section timer-section"
+        id="timer"
+    >
 
-    <div class="section-heading">
+        <div class="section-heading">
 
-        <p>
-            FOCUS MODE
-        </p>
-
-        <h2>
-            Study Timer
-        </h2>
-
-        <span class="timer-subtitle">
-            Choose your focus time and start studying.
-        </span>
-
-    </div>
+            <p>
+                FOCUS MODE
+            </p>
 
 
-    <div class="timer-card">
+            <h2>
+                Study Timer
+            </h2>
 
 
-        <div class="timer-presets">
-
-            <button
-                class="preset-button"
-                onclick="setTimer(15)"
-            >
-                15 min
-            </button>
-
-            <button
-                class="preset-button active-preset"
-                onclick="setTimer(25)"
-            >
-                25 min
-            </button>
-
-            <button
-                class="preset-button"
-                onclick="setTimer(45)"
-            >
-                45 min
-            </button>
-
-            <button
-                class="preset-button"
-                onclick="setTimer(60)"
-            >
-                60 min
-            </button>
+            <span class="section-subtitle">
+                Choose your focus time and start studying.
+            </span>
 
         </div>
 
 
-        <div id="timer-display">
-            25:00
+        <div class="timer-card">
+
+
+            <div class="timer-presets">
+
+                <button
+                    class="preset-button"
+                    onclick="setTimer(15)"
+                >
+                    15 min
+                </button>
+
+
+                <button
+                    class="preset-button active-preset"
+                    onclick="setTimer(25)"
+                >
+                    25 min
+                </button>
+
+
+                <button
+                    class="preset-button"
+                    onclick="setTimer(45)"
+                >
+                    45 min
+                </button>
+
+
+                <button
+                    class="preset-button"
+                    onclick="setTimer(60)"
+                >
+                    60 min
+                </button>
+
+            </div>
+
+
+            <div id="timer-display">
+                25:00
+            </div>
+
+
+            <p
+                id="timer-status"
+                class="timer-status"
+            >
+                Ready to focus
+            </p>
+
+
+            <div class="timer-buttons">
+
+                <button
+                    class="olive-button"
+                    onclick="startTimer()"
+                >
+                    Start
+                </button>
+
+
+                <button
+                    class="dark-button"
+                    onclick="pauseTimer()"
+                >
+                    Pause
+                </button>
+
+
+                <button
+                    class="dark-button"
+                    onclick="resetTimer()"
+                >
+                    Reset
+                </button>
+
+            </div>
+
         </div>
 
-
-        <p
-            id="timer-status"
-            class="timer-status"
-        >
-            Ready to focus
-        </p>
-
-
-        <div class="timer-buttons">
-
-            <button
-                class="olive-button"
-                onclick="startTimer()"
-            >
-                Start
-            </button>
-
-
-            <button
-                class="dark-button"
-                onclick="pauseTimer()"
-            >
-                Pause
-            </button>
-
-
-            <button
-                class="dark-button"
-                onclick="resetTimer()"
-            >
-                Reset
-            </button>
-
-        </div>
-
-
-    </div>
-
-</section>
+    </section>
 
 
 
-
-
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
     <footer>
 
@@ -751,9 +741,11 @@
             Notes & Goals
         </h3>
 
+
         <p>
             Plan better. Study smarter. Achieve more.
         </p>
+
 
         <p class="copyright">
             © 2026 Notes & Goals
@@ -768,6 +760,5 @@
 </body>
 
 </html>
-
 
 
