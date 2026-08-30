@@ -560,4 +560,97 @@ footer p {
     }
 }
 
+```css
+/* =========================
+   NOTES
+========================= */
+
+.notes-section {
+    background: #080a07;
+}
+
+.notes-container {
+    max-width: 750px;
+    margin: auto;
+    padding: 30px;
+
+    background: #12160f;
+    border: 1px solid #30372a;
+    border-radius: 12px;
+}
+
+.notes-container input,
+.notes-container textarea {
+    width: 100%;
+
+    background: #1b2017;
+    color: #ffffff;
+
+    border: 1px solid #343b2d;
+    border-radius: 7px;
+
+    padding: 14px;
+    margin-bottom: 15px;
+
+    outline: none;
+    font-size: 15px;
+}
+
+.notes-container input:focus,
+.notes-container textarea:focus {
+    border-color: #a6b76a;
+}
+
+.notes-container textarea {
+    min-height: 180px;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+.notes-container .olive-button {
+    width: 100%;
+}
+
+
+/* SAVED NOTES */
+
+.saved-notes {
+    max-width: 750px;
+    margin: 30px auto 0;
+}
+
+.note-card {
+    background: #171c14;
+    border: 1px solid #30372a;
+
+    padding: 22px;
+    margin-bottom: 15px;
+
+    border-radius: 10px;
+}
+
+.note-card h3 {
+    color: #a6b76a;
+    margin-bottom: 8px;
+}
+
+.note-card p {
+    color: #cccccc;
+    white-space: pre-wrap;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .notes-container {
+        padding: 22px;
+    }
+
+    .notes-container textarea {
+        min-height: 150px;
+    }
+}
+
 
