@@ -881,4 +881,47 @@ setInterval(
     checkStudyTime,
     60000
 );
+/* =========================
+   HIGHLIGHT CURRENT DAY
+========================= */
 
+function highlightCurrentDay() {
+
+    const today =
+        new Date().toLocaleDateString(
+            "en-US",
+            {
+                weekday: "long"
+            }
+        );
+
+
+    const days =
+        document.querySelectorAll(
+            ".week-day"
+        );
+
+
+    days.forEach(function(day) {
+
+        if (
+            day.dataset.weekday === today
+        ) {
+
+            day.classList.add(
+                "active-day"
+            );
+
+        } else {
+
+            day.classList.remove(
+                "active-day"
+            );
+
+        }
+
+    });
+}
+
+
+highlightCurrentDay();
