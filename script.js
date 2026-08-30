@@ -325,4 +325,68 @@ function escapeHTML(text) {
 updateProgress();
 
 updateTimerDisplay();
+```javascript
+/* =========================
+   STUDY REMINDER
+========================= */
+
+const reminderBox =
+    document.getElementById("reminderBox");
+
+
+function showReminder(subject) {
+
+    reminderBox.innerHTML = `
+        <h3>Study Time!</h3>
+        <p>
+            It's time to study
+            <strong>${escapeHTML(subject)}</strong>.
+        </p>
+    `;
+
+    reminderBox.classList.add("show");
+
+
+    setTimeout(function() {
+
+        reminderBox.classList.remove("show");
+
+    }, 10000);
+
+
+    /* Browser Notification */
+
+    if (
+        Notification.permission === "granted"
+    ) {
+
+        new Notification("Study Time!", {
+
+            body:
+                "It's time to study " +
+                subject + "."
+
+        });
+
+    }
+}
+
+
+/* Ask for notification permission */
+
+function requestNotificationPermission() {
+
+    if (
+        "Notification" in window &&
+        Notification.permission === "default"
+    ) {
+
+        Notification.requestPermission();
+
+    }
+}
+
+
+requestNotificationPermission();
+
 
