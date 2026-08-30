@@ -17,15 +17,14 @@ const quotes = [
     "Focus on the step in front of you, not the whole staircase."
 ];
 
-const quoteElement =
-    document.getElementById("quote");
+const quoteElement = document.getElementById("quote");
 
 if (quoteElement) {
-    const randomIndex =
-        Math.floor(Math.random() * quotes.length);
+    const randomIndex = Math.floor(
+        Math.random() * quotes.length
+    );
 
-    quoteElement.textContent =
-        quotes[randomIndex];
+    quoteElement.textContent = quotes[randomIndex];
 }
 
 
@@ -33,10 +32,9 @@ if (quoteElement) {
    GOALS
 ========================= */
 
-const goals =
-    document.querySelectorAll(
-        '.goal input[type="checkbox"]'
-    );
+const goals = document.querySelectorAll(
+    '.goal input[type="checkbox"]'
+);
 
 const progressText =
     document.getElementById("progress-text");
@@ -124,14 +122,10 @@ goals.forEach(function(goal) {
 function updateOverview() {
 
     const dateElement =
-        document.getElementById(
-            "current-date"
-        );
+        document.getElementById("current-date");
 
     const goalCount =
-        document.getElementById(
-            "goal-count"
-        );
+        document.getElementById("goal-count");
 
     const overviewProgress =
         document.getElementById(
@@ -202,9 +196,7 @@ let timeLeft = 25 * 60;
 let timerInterval = null;
 
 const timerDisplay =
-    document.getElementById(
-        "timer-display"
-    );
+    document.getElementById("timer-display");
 
 
 function updateTimerDisplay() {
@@ -216,19 +208,12 @@ function updateTimerDisplay() {
         timeLeft % 60;
 
 
-    const formattedMinutes =
-        String(minutes).padStart(2, "0");
-
-    const formattedSeconds =
-        String(seconds).padStart(2, "0");
-
-
     if (timerDisplay) {
 
         timerDisplay.textContent =
-            formattedMinutes +
+            String(minutes).padStart(2, "0") +
             ":" +
-            formattedSeconds;
+            String(seconds).padStart(2, "0");
 
     }
 }
@@ -239,6 +224,7 @@ function startTimer() {
     if (timerInterval !== null) {
         return;
     }
+
 
     timerInterval =
         setInterval(function() {
@@ -251,9 +237,7 @@ function startTimer() {
 
             } else {
 
-                clearInterval(
-                    timerInterval
-                );
+                clearInterval(timerInterval);
 
                 timerInterval = null;
 
@@ -269,9 +253,7 @@ function startTimer() {
 
 function resetTimer() {
 
-    clearInterval(
-        timerInterval
-    );
+    clearInterval(timerInterval);
 
     timerInterval = null;
 
@@ -295,14 +277,12 @@ let schedules =
 
 function formatTime(time) {
 
-    const parts =
-        time.split(":");
+    const parts = time.split(":");
 
     let hour =
         parseInt(parts[0]);
 
-    const minutes =
-        parts[1];
+    const minutes = parts[1];
 
     const ampm =
         hour >= 12 ? "PM" : "AM";
@@ -385,10 +365,7 @@ function addSchedule() {
     };
 
 
-    schedules.push(
-        newSchedule
-    );
-
+    schedules.push(newSchedule);
 
     saveSchedules();
 
@@ -434,16 +411,11 @@ function displaySchedules() {
     }
 
 
-    /* Remove previously added cards */
-
-    const savedCards =
-        container.querySelectorAll(
-            ".saved-schedule"
-        );
-
-    savedCards.forEach(function(card) {
-        card.remove();
-    });
+    container
+        .querySelectorAll(".saved-schedule")
+        .forEach(function(card) {
+            card.remove();
+        });
 
 
     schedules.forEach(function(item) {
@@ -453,6 +425,12 @@ function displaySchedules() {
 
         card.className =
             "schedule-card saved-schedule";
+
+
+        card.setAttribute(
+            "data-id",
+            item.id
+        );
 
 
         card.setAttribute(
@@ -488,6 +466,14 @@ function displaySchedules() {
 
             </div>
 
+
+            <button
+                class="delete-button"
+                onclick="deleteSchedule(${item.id})"
+            >
+                Delete
+            </button>
+
         `;
 
 
@@ -497,6 +483,24 @@ function displaySchedules() {
 
 
     highlightToday();
+}
+
+
+/* DELETE TIMETABLE SESSION */
+
+function deleteSchedule(id) {
+
+    schedules =
+        schedules.filter(
+            function(item) {
+                return item.id !== id;
+            }
+        );
+
+
+    saveSchedules();
+
+    displaySchedules();
 }
 
 
@@ -576,16 +580,12 @@ function showReminder(subject) {
     `;
 
 
-    reminderBox.classList.add(
-        "show"
-    );
+    reminderBox.classList.add("show");
 
 
     setTimeout(function() {
 
-        reminderBox.classList.remove(
-            "show"
-        );
+        reminderBox.classList.remove("show");
 
     }, 10000);
 
@@ -628,8 +628,7 @@ function checkStudyTime() {
     }
 
 
-    const now =
-        new Date();
+    const now = new Date();
 
 
     const currentDay =
@@ -673,15 +672,11 @@ function checkStudyTime() {
                     reminderKey
                 )
             ) {
-
                 return;
-
             }
 
 
-            showReminder(
-                item.subject
-            );
+            showReminder(item.subject);
 
 
             localStorage.setItem(
@@ -747,9 +742,7 @@ function saveNote() {
     };
 
 
-    savedNotes.push(
-        newNote
-    );
+    savedNotes.push(newNote);
 
 
     localStorage.setItem(
@@ -786,19 +779,18 @@ function displayNotes() {
     container.innerHTML = "";
 
 
-    savedNotes.forEach(
-        function(note) {
+    savedNotes.forEach(function(note) {
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+        const card =
+            document.createElement("div");
 
-            card.className =
-                "note-card";
+        card.className =
+            "note-card";
 
 
-            card.innerHTML = `
+        card.innerHTML = `
+
+            <div class="note-content">
 
                 <h3>
                     ${escapeHTML(note.title)}
@@ -808,15 +800,44 @@ function displayNotes() {
                     ${escapeHTML(note.text)}
                 </p>
 
-            `;
+            </div>
 
 
-            container.appendChild(
-                card
-            );
+            <button
+                class="delete-button"
+                onclick="deleteNote(${note.id})"
+            >
+                Delete
+            </button>
 
-        }
+        `;
+
+
+        container.appendChild(card);
+
+    });
+}
+
+
+/* DELETE NOTE */
+
+function deleteNote(id) {
+
+    savedNotes =
+        savedNotes.filter(
+            function(note) {
+                return note.id !== id;
+            }
+        );
+
+
+    localStorage.setItem(
+        "notesGoalsNotes",
+        JSON.stringify(savedNotes)
     );
+
+
+    displayNotes();
 }
 
 
@@ -827,12 +848,9 @@ function displayNotes() {
 function escapeHTML(text) {
 
     const div =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
-    div.textContent =
-        text;
+    div.textContent = text;
 
     return div.innerHTML;
 }
@@ -859,9 +877,8 @@ requestNotificationPermission();
 checkStudyTime();
 
 
-/* Check study reminder every minute */
-
 setInterval(
     checkStudyTime,
     60000
 );
+
