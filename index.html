@@ -632,55 +632,114 @@
 
 
 
-    <!-- TIMER -->
+<!-- =========================
+     STUDY TIMER
+========================= -->
 
-    <section
-        class="section timer-section"
-        id="timer"
-    >
+<section
+    class="section timer-section"
+    id="timer"
+>
 
-        <div class="section-heading">
+    <div class="section-heading">
 
-            <p>
-                FOCUS MODE
-            </p>
+        <p>
+            FOCUS MODE
+        </p>
 
-            <h2>
-                Study Timer
-            </h2>
+        <h2>
+            Study Timer
+        </h2>
+
+        <span class="timer-subtitle">
+            Choose your focus time and start studying.
+        </span>
+
+    </div>
+
+
+    <div class="timer-card">
+
+
+        <div class="timer-presets">
+
+            <button
+                class="preset-button"
+                onclick="setTimer(15)"
+            >
+                15 min
+            </button>
+
+            <button
+                class="preset-button active-preset"
+                onclick="setTimer(25)"
+            >
+                25 min
+            </button>
+
+            <button
+                class="preset-button"
+                onclick="setTimer(45)"
+            >
+                45 min
+            </button>
+
+            <button
+                class="preset-button"
+                onclick="setTimer(60)"
+            >
+                60 min
+            </button>
 
         </div>
 
 
-        <div class="timer-card">
-
-            <div id="timer-display">
-                25:00
-            </div>
+        <div id="timer-display">
+            25:00
+        </div>
 
 
-            <div class="timer-buttons">
-
-                <button
-                    class="olive-button"
-                    onclick="startTimer()"
-                >
-                    Start
-                </button>
+        <p
+            id="timer-status"
+            class="timer-status"
+        >
+            Ready to focus
+        </p>
 
 
-                <button
-                    class="dark-button"
-                    onclick="resetTimer()"
-                >
-                    Reset
-                </button>
+        <div class="timer-buttons">
 
-            </div>
+            <button
+                class="olive-button"
+                onclick="startTimer()"
+            >
+                Start
+            </button>
+
+
+            <button
+                class="dark-button"
+                onclick="pauseTimer()"
+            >
+                Pause
+            </button>
+
+
+            <button
+                class="dark-button"
+                onclick="resetTimer()"
+            >
+                Reset
+            </button>
 
         </div>
 
-    </section>
+
+    </div>
+
+</section>
+
+
 
 
 
