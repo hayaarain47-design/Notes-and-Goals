@@ -707,4 +707,59 @@ footer p {
     }
 
 }
+/* =========================
+   WEEKLY TIMETABLE
+========================= */
 
+.week-days {
+    max-width: 1000px;
+    margin: 35px auto 20px;
+
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.week-day {
+    padding: 14px 8px;
+
+    text-align: center;
+
+    background: #171c14;
+    border: 1px solid #30372a;
+
+    border-radius: 7px;
+
+    color: #aaaaaa;
+    font-size: 13px;
+
+    transition: 0.3s;
+}
+
+.week-day.active-day {
+    background: #a6b76a;
+    color: #0b0d09;
+
+    border-color: #a6b76a;
+
+    font-weight: bold;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .week-days {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .week-days {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
