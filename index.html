@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notes & Goals</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo">Notes & Goals</div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#timetable">Timetable</a>
+            <a href="#goals">Goals</a>
+            <a href="#timer">Timer</a>
+        </nav>
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <p class="small-title">WELCOME TO</p>
+
+            <h1>Notes & Goals</h1>
+
+            <p>
+                Plan your study, organize your goals,
+                and make every day count.
+            </p>
+
+            <a href="#timetable" class="main-button">
+                Start Planning
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- MOTIVATION -->
+    <section class="motivation">
+
+        <div class="section-heading">
+            <p>YOUR DAILY MOTIVATION</p>
+            <h2>Keep Going</h2>
+        </div>
+
+        <div class="quote-card">
+
+            <span class="quote-mark">“</span>
+
+            <p id="quote">
+                Small progress is still progress.
+            </p>
+
+            <span class="quote-mark right">”</span>
+
+        </div>
+
+    </section>
+
+
+    <!-- TIMETABLE -->
+    <section class="section" id="timetable">
+
+        <div class="section-heading">
+            <p>PLAN YOUR DAY</p>
+            <h2>Study Timetable</h2>
+        </div>
+
+        <div class="timetable-container">
+
+            <div class="schedule-card">
+                <div class="time">04:00 PM</div>
+                <div class="subject">
+                    <h3>Mathematics</h3>
+                    <p>Practice & Revision</p>
+                </div>
+            </div>
+
+            <div class="schedule-card">
+                <div class="time">05:30 PM</div>
+                <div class="subject">
+                    <h3>Computer Science</h3>
+                    <p>Programming Practice</p>
+                </div>
+            </div>
+
+            <div class="schedule-card">
+                <div class="time">07:00 PM</div>
+                <div class="subject">
+                    <h3>Physics</h3>
+                    <p>Concept Revision</p>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="olive-button" onclick="addSchedule()">
+            + Add Study Session
+        </button>
+
+    </section>
+
+
+    <!-- GOALS -->
+    <section class="section goals-section" id="goals">
+
+        <div class="section-heading">
+            <p>STAY CONSISTENT</p>
+            <h2>Today's Goals</h2>
+        </div>
+
+        <div class="goals-container">
+
+            <div class="goal">
+                <input type="checkbox" id="goal1">
+                <label for="goal1">Complete today's notes</label>
+            </div>
+
+            <div class="goal">
+                <input type="checkbox" id="goal2">
+                <label for="goal2">Revise one chapter</label>
+            </div>
+
+            <div class="goal">
+                <input type="checkbox" id="goal3">
+                <label for="goal3">Practice 10 questions</label>
+            </div>
+
+            <div class="goal">
+                <input type="checkbox" id="goal4">
+                <label for="goal4">Review difficult topics</label>
+            </div>
+
+        </div>
+
+        <div class="progress-box">
+
+            <div class="progress-info">
+                <span>Daily Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TIMER -->
+    <section class="section timer-section" id="timer">
+
+        <div class="section-heading">
+            <p>FOCUS MODE</p>
+            <h2>Study Timer</h2>
+        </div>
+
+        <div class="timer-card">
+
+            <div id="timer-display">25:00</div>
+
+            <div class="timer-buttons">
+
+                <button class="olive-button" onclick="startTimer()">
+                    Start
+                </button>
+
+                <button class="dark-button" onclick="resetTimer()">
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <h3>Notes & Goals</h3>
+
+        <p>
+            Plan better. Study smarter. Achieve more.
+        </p>
+
+        <p class="copyright">
+            © 2026 Notes & Goals
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+
