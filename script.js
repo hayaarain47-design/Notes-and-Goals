@@ -618,4 +618,129 @@ setInterval(
     checkStudyTime,
     60000
 );
+```javascript
+/* =========================
+   STUDY NOTES
+========================= */
 
+let savedNotes =
+    JSON.parse(
+        localStorage.getItem(
+            "notesGoalsNotes"
+        )
+    ) || [];
+
+
+function saveNote() {
+
+    const title =
+        document
+            .getElementById("noteTitle")
+            .value
+            .trim();
+
+    const text =
+        document
+            .getElementById("noteText")
+            .value
+            .trim();
+
+
+    if (
+        title === "" ||
+        text === ""
+    ) {
+
+        alert(
+            "Please enter a title and your notes."
+        );
+
+        return;
+    }
+
+
+    const newNote = {
+
+        id: Date.now(),
+
+        title: title,
+
+        text: text
+
+    };
+
+
+    savedNotes.push(
+        newNote
+    );
+
+
+    localStorage.setItem(
+        "notesGoalsNotes",
+        JSON.stringify(savedNotes)
+    );
+
+
+    displayNotes();
+
+
+    document.getElementById(
+        "noteTitle"
+    ).value = "";
+
+    document.getElementById(
+        "noteText"
+    ).value = "";
+}
+
+
+/* DISPLAY NOTES */
+
+function displayNotes() {
+
+    const container =
+        document.getElementById(
+            "savedNotes"
+        );
+
+
+    container.innerHTML = "";
+
+
+    savedNotes.forEach(
+        function(note) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "note-card";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${escapeHTML(note.title)}
+                </h3>
+
+                <p>
+                    ${escapeHTML(note.text)}
+                </p>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+}
+
+
+/* LOAD NOTES */
+
+displayNotes();
