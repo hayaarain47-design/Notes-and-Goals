@@ -1,0 +1,405 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b0d0a;
+    color: #f2f2f2;
+    line-height: 1.6;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    width: 100%;
+    padding: 20px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0b0d0a;
+    border-bottom: 1px solid #292d25;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #a4b465;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar nav a {
+    color: #d8d8d8;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.navbar nav a:hover {
+    color: #a4b465;
+}
+
+
+/* HERO */
+
+.hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+
+    background:
+        linear-gradient(rgba(5, 7, 5, 0.72), rgba(5, 7, 5, 0.88)),
+        url("images/study-bg.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 750px;
+}
+
+.small-title {
+    color: #a4b465;
+    letter-spacing: 4px;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: 70px;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+}
+
+.hero p {
+    color: #c9c9c9;
+    font-size: 18px;
+    margin-bottom: 35px;
+}
+
+
+/* BUTTONS */
+
+.main-button,
+.olive-button,
+.dark-button {
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 13px 25px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.main-button {
+    display: inline-block;
+    background: #a4b465;
+    color: #10120d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.main-button:hover,
+.olive-button:hover {
+    background: #b7c77a;
+    transform: translateY(-2px);
+}
+
+.olive-button {
+    background: #a4b465;
+    color: #10120d;
+    font-weight: bold;
+}
+
+.dark-button {
+    background: #242820;
+    color: #ffffff;
+}
+
+.dark-button:hover {
+    background: #30362a;
+}
+
+
+/* SECTIONS */
+
+.section,
+.motivation {
+    padding: 90px 7%;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-heading p {
+    color: #a4b465;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.section-heading h2 {
+    font-size: 40px;
+}
+
+
+/* MOTIVATION */
+
+.motivation {
+    background: #10130e;
+}
+
+.quote-card {
+    max-width: 800px;
+    margin: auto;
+    padding: 45px;
+    text-align: center;
+    background: #171b14;
+    border: 1px solid #30362a;
+    border-radius: 12px;
+}
+
+.quote-card p {
+    font-size: 25px;
+    color: #e8e8e8;
+    font-style: italic;
+}
+
+.quote-mark {
+    display: block;
+    font-size: 55px;
+    color: #a4b465;
+    height: 35px;
+}
+
+.quote-mark.right {
+    margin-top: 10px;
+}
+
+
+/* TIMETABLE */
+
+.timetable-container {
+    max-width: 850px;
+    margin: auto;
+}
+
+.schedule-card {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 22px 25px;
+    margin-bottom: 15px;
+    background: #151812;
+    border: 1px solid #2d3327;
+    border-radius: 9px;
+}
+
+.time {
+    min-width: 100px;
+    color: #a4b465;
+    font-weight: bold;
+}
+
+.subject h3 {
+    margin-bottom: 3px;
+}
+
+.subject p {
+    color: #999;
+    font-size: 14px;
+}
+
+.timetable-container + .olive-button {
+    display: block;
+    margin: 30px auto 0;
+}
+
+
+/* GOALS */
+
+.goals-section {
+    background: #10130e;
+}
+
+.goals-container {
+    max-width: 700px;
+    margin: auto;
+}
+
+.goal {
+    background: #171b14;
+    border: 1px solid #30362a;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+.goal input {
+    accent-color: #a4b465;
+    margin-right: 12px;
+    transform: scale(1.2);
+}
+
+.goal label {
+    cursor: pointer;
+}
+
+.progress-box {
+    max-width: 700px;
+    margin: 35px auto 0;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #cfcfcf;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #252a20;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #a4b465;
+    transition: width 0.4s ease;
+}
+
+
+/* TIMER */
+
+.timer-card {
+    max-width: 500px;
+    margin: auto;
+    padding: 45px;
+    text-align: center;
+    background: #171b14;
+    border: 1px solid #30362a;
+    border-radius: 12px;
+}
+
+#timer-display {
+    font-size: 70px;
+    font-weight: bold;
+    color: #a4b465;
+    margin-bottom: 25px;
+}
+
+.timer-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+
+/* FOOTER */
+
+footer {
+    padding: 50px 20px;
+    text-align: center;
+    background: #080a07;
+    border-top: 1px solid #292d25;
+}
+
+footer h3 {
+    color: #a4b465;
+    margin-bottom: 8px;
+}
+
+footer p {
+    color: #999;
+}
+
+.copyright {
+    margin-top: 20px;
+    font-size: 13px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 18px 20px;
+    }
+
+    .navbar nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        min-height: 80vh;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .section,
+    .motivation {
+        padding: 65px 20px;
+    }
+
+    .section-heading h2 {
+        font-size: 32px;
+    }
+
+    .quote-card {
+        padding: 30px 20px;
+    }
+
+    .quote-card p {
+        font-size: 20px;
+    }
+
+    .schedule-card {
+        gap: 15px;
+        padding: 18px;
+    }
+
+    .time {
+        min-width: 80px;
+        font-size: 14px;
+    }
+
+    #timer-display {
+        font-size: 55px;
+    }
+}
+
