@@ -652,5 +652,19 @@ footer p {
         min-height: 150px;
     }
 }
+/* TODAY'S STUDY SESSION */
 
+.today-session {
+    border-color: #a6b76a !important;
+    box-shadow: 0 0 18px rgba(166, 183, 106, 0.15);
+}
+
+.today-session::before {
+    content: "TODAY";
+    color: #a6b76a;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-right: 15px;
+}
 
