@@ -17,22 +17,24 @@ const quotes = [
     "Focus on the step in front of you, not the whole staircase."
 ];
 
-const quoteElement = document.getElementById("quote");
+const quoteElement =
+    document.getElementById("quote");
 
-const randomIndex = Math.floor(
-    Math.random() * quotes.length
-);
+const randomIndex =
+    Math.floor(Math.random() * quotes.length);
 
-quoteElement.textContent = quotes[randomIndex];
+quoteElement.textContent =
+    quotes[randomIndex];
 
 
 /* =========================
-   GOALS PROGRESS
+   GOALS
 ========================= */
 
-const goals = document.querySelectorAll(
-    '.goal input[type="checkbox"]'
-);
+const goals =
+    document.querySelectorAll(
+        '.goal input[type="checkbox"]'
+    );
 
 const progressText =
     document.getElementById("progress-text");
@@ -60,6 +62,22 @@ function updateProgress() {
 
     progressFill.style.width =
         percentage + "%";
+
+
+    /* Save goals */
+
+    const goalStatus = [];
+
+    goals.forEach(function(goal) {
+
+        goalStatus.push(goal.checked);
+
+    });
+
+    localStorage.setItem(
+        "notesGoalsStatus",
+        JSON.stringify(goalStatus)
+    );
 }
 
 
@@ -73,6 +91,35 @@ goals.forEach(function(goal) {
 });
 
 
+/* Load saved goals */
+
+function loadGoals() {
+
+    const savedGoals =
+        localStorage.getItem(
+            "notesGoalsStatus"
+        );
+
+    if (!savedGoals) {
+        return;
+    }
+
+    const goalStatus =
+        JSON.parse(savedGoals);
+
+    goals.forEach(function(goal, index) {
+
+        if (goalStatus[index]) {
+
+            goal.checked = true;
+
+        }
+
+    });
+
+}
+
+
 /* =========================
    STUDY TIMER
 ========================= */
@@ -82,7 +129,9 @@ let timeLeft = 25 * 60;
 let timerInterval = null;
 
 const timerDisplay =
-    document.getElementById("timer-display");
+    document.getElementById(
+        "timer-display"
+    );
 
 
 function updateTimerDisplay() {
@@ -112,32 +161,38 @@ function startTimer() {
         return;
     }
 
-    timerInterval = setInterval(function() {
+    timerInterval =
+        setInterval(function() {
 
-        if (timeLeft > 0) {
+            if (timeLeft > 0) {
 
-            timeLeft--;
+                timeLeft--;
 
-            updateTimerDisplay();
+                updateTimerDisplay();
 
-        } else {
+            } else {
 
-            clearInterval(timerInterval);
+                clearInterval(
+                    timerInterval
+                );
 
-            timerInterval = null;
+                timerInterval = null;
 
-            alert(
-                "Study session complete! Time for a short break."
-            );
-        }
+                showReminder(
+                    "Study Session"
+                );
 
-    }, 1000);
+            }
+
+        }, 1000);
 }
 
 
 function resetTimer() {
 
-    clearInterval(timerInterval);
+    clearInterval(
+        timerInterval
+    );
 
     timerInterval = null;
 
@@ -148,144 +203,27 @@ function resetTimer() {
 
 
 /* =========================
-   ADD STUDY SESSION
+   TIMETABLE
 ========================= */
 
-function addSchedule() {
+let schedules =
+    JSON.parse(
+        localStorage.getItem(
+            "notesGoalsSchedules"
+        )
+    ) || [];
 
-    const subjectInput =
-        document.getElementById("subjectInput");
-
-    const dayInput =
-        document.getElementById("dayInput");
-
-    const startTime =
-        document.getElementById("startTime");
-
-    const endTime =
-        document.getElementById("endTime");
-
-
-    const subject =
-        subjectInput.value.trim();
-
-    const day =
-        dayInput.value;
-
-    const start =
-        startTime.value;
-
-    const end =
-        endTime.value;
-
-
-    /* CHECK INPUTS */
-
-    if (
-        subject === "" ||
-        day === "" ||
-        start === "" ||
-        end === ""
-    ) {
-
-        alert(
-            "Please fill in all timetable details."
-        );
-
-        return;
-    }
-
-
-    /* CHECK TIME */
-
-    if (start >= end) {
-
-        alert(
-            "End time must be after start time."
-        );
-
-        return;
-    }
-
-
-    /* FORMAT TIME */
-
-    const formattedStart =
-        formatTime(start);
-
-    const formattedEnd =
-        formatTime(end);
-
-
-    /* CREATE CARD */
-
-    const container =
-        document.getElementById(
-            "scheduleContainer"
-        );
-
-
-    const schedule =
-        document.createElement("div");
-
-    schedule.className =
-        "schedule-card";
-
-
-    schedule.innerHTML = `
-
-        <div class="time">
-
-            ${formattedStart}
-            <br>
-            -
-            <br>
-            ${formattedEnd}
-
-        </div>
-
-
-        <div class="subject">
-
-            <h3>
-                ${escapeHTML(subject)}
-            </h3>
-
-            <p>
-                ${day} • Study Session
-            </p>
-
-        </div>
-
-    `;
-
-
-    container.appendChild(schedule);
-
-
-    /* CLEAR FORM */
-
-    subjectInput.value = "";
-
-    dayInput.value = "";
-
-    startTime.value = "";
-
-    endTime.value = "";
-}
-
-
-/* =========================
-   TIME FORMAT
-========================= */
 
 function formatTime(time) {
 
-    const [hours, minutes] =
+    const parts =
         time.split(":");
 
     let hour =
-        parseInt(hours);
+        parseInt(parts[0]);
+
+    const minutes =
+        parts[1];
 
     const ampm =
         hour >= 12 ? "PM" : "AM";
@@ -303,76 +241,251 @@ function formatTime(time) {
 }
 
 
-/* =========================
-   SAFE TEXT
-========================= */
+function addSchedule() {
 
-function escapeHTML(text) {
+    const subject =
+        document
+            .getElementById("subjectInput")
+            .value
+            .trim();
 
-    const div =
-        document.createElement("div");
+    const day =
+        document
+            .getElementById("dayInput")
+            .value;
 
-    div.textContent = text;
+    const start =
+        document
+            .getElementById("startTime")
+            .value;
 
-    return div.innerHTML;
+    const end =
+        document
+            .getElementById("endTime")
+            .value;
+
+
+    if (
+        subject === "" ||
+        day === "" ||
+        start === "" ||
+        end === ""
+    ) {
+
+        alert(
+            "Please fill in all timetable details."
+        );
+
+        return;
+    }
+
+
+    if (start >= end) {
+
+        alert(
+            "End time must be after start time."
+        );
+
+        return;
+    }
+
+
+    const newSchedule = {
+
+        id: Date.now(),
+
+        subject: subject,
+
+        day: day,
+
+        start: start,
+
+        end: end
+
+    };
+
+
+    schedules.push(
+        newSchedule
+    );
+
+
+    saveSchedules();
+
+    displaySchedules();
+
+
+    document.getElementById(
+        "subjectInput"
+    ).value = "";
+
+    document.getElementById(
+        "dayInput"
+    ).value = "";
+
+    document.getElementById(
+        "startTime"
+    ).value = "";
+
+    document.getElementById(
+        "endTime"
+    ).value = "";
 }
 
 
-/* =========================
-   INITIALIZE
-========================= */
+/* Display timetable */
 
-updateProgress();
+function displaySchedules() {
 
-updateTimerDisplay();
-```javascript
+    const container =
+        document.getElementById(
+            "scheduleContainer"
+        );
+
+
+    /* Keep default schedules */
+
+    schedules.forEach(function(item) {
+
+        const existing =
+            document.querySelector(
+                `[data-id="${item.id}"]`
+            );
+
+        if (existing) {
+            return;
+        }
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "schedule-card";
+
+        card.setAttribute(
+            "data-id",
+            item.id
+        );
+
+
+        card.innerHTML = `
+
+            <div class="time">
+
+                ${formatTime(item.start)}
+
+                <br>
+
+                -
+
+                <br>
+
+                ${formatTime(item.end)}
+
+            </div>
+
+
+            <div class="subject">
+
+                <h3>
+                    ${escapeHTML(item.subject)}
+                </h3>
+
+                <p>
+                    ${item.day} • Study Session
+                </p>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+}
+
+
+/* Save timetable */
+
+function saveSchedules() {
+
+    localStorage.setItem(
+        "notesGoalsSchedules",
+        JSON.stringify(schedules)
+    );
+}
+
+
 /* =========================
    STUDY REMINDER
 ========================= */
 
 const reminderBox =
-    document.getElementById("reminderBox");
+    document.getElementById(
+        "reminderBox"
+    );
 
 
 function showReminder(subject) {
 
+    if (!reminderBox) {
+        return;
+    }
+
+
     reminderBox.innerHTML = `
-        <h3>Study Time!</h3>
+
+        <h3>
+            Study Time!
+        </h3>
+
         <p>
             It's time to study
-            <strong>${escapeHTML(subject)}</strong>.
+            <strong>
+                ${escapeHTML(subject)}
+            </strong>.
         </p>
+
     `;
 
-    reminderBox.classList.add("show");
+
+    reminderBox.classList.add(
+        "show"
+    );
 
 
     setTimeout(function() {
 
-        reminderBox.classList.remove("show");
+        reminderBox.classList.remove(
+            "show"
+        );
 
     }, 10000);
 
 
-    /* Browser Notification */
+    /* Browser notification */
 
     if (
+        "Notification" in window &&
         Notification.permission === "granted"
     ) {
 
-        new Notification("Study Time!", {
-
-            body:
-                "It's time to study " +
-                subject + "."
-
-        });
+        new Notification(
+            "Study Time!",
+            {
+                body:
+                    "It's time to study " +
+                    subject + "."
+            }
+        );
 
     }
 }
 
 
-/* Ask for notification permission */
+/* Request notification permission */
 
 function requestNotificationPermission() {
 
@@ -387,6 +500,122 @@ function requestNotificationPermission() {
 }
 
 
+/* Check timetable */
+
+function checkStudyTime() {
+
+    if (schedules.length === 0) {
+        return;
+    }
+
+
+    const now =
+        new Date();
+
+
+    const currentDay =
+        now.toLocaleDateString(
+            "en-US",
+            {
+                weekday: "long"
+            }
+        );
+
+
+    const currentTime =
+        now.getHours()
+            .toString()
+            .padStart(2, "0")
+        +
+        ":" +
+        now.getMinutes()
+            .toString()
+            .padStart(2, "0");
+
+
+    schedules.forEach(function(item) {
+
+        if (
+            item.day === currentDay &&
+            item.start === currentTime
+        ) {
+
+            const reminderKey =
+                item.id +
+                "-" +
+                currentDay +
+                "-" +
+                currentTime;
+
+
+            if (
+                localStorage.getItem(
+                    "reminder-" +
+                    reminderKey
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            showReminder(
+                item.subject
+            );
+
+
+            localStorage.setItem(
+                "reminder-" +
+                reminderKey,
+                "shown"
+            );
+
+        }
+
+    });
+}
+
+
+/* =========================
+   SAFE TEXT
+========================= */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadGoals();
+
+updateProgress();
+
+updateTimerDisplay();
+
+displaySchedules();
+
 requestNotificationPermission();
 
+checkStudyTime();
+
+
+/* Check every minute */
+
+setInterval(
+    checkStudyTime,
+    60000
+);
 
