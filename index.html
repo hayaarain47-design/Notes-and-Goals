@@ -20,7 +20,9 @@
 <body>
 
 
-    <!-- STUDY REMINDER -->
+    <!-- =========================
+         STUDY REMINDER
+    ========================== -->
 
     <div
         id="reminderBox"
@@ -38,6 +40,7 @@
         <div class="logo">
             Notes & Goals
         </div>
+
 
         <nav>
 
@@ -144,6 +147,113 @@
 
 
     <!-- =========================
+         TODAY'S OVERVIEW
+    ========================== -->
+
+    <section class="overview-section">
+
+        <div class="section-heading">
+
+            <p>
+                YOUR DAY AT A GLANCE
+            </p>
+
+            <h2>
+                Today's Overview
+            </h2>
+
+        </div>
+
+
+        <div class="overview-container">
+
+
+            <!-- DATE -->
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    DATE
+                </div>
+
+                <h3 id="current-date">
+                    Loading...
+                </h3>
+
+                <p>
+                    Keep moving forward
+                </p>
+
+            </div>
+
+
+
+            <!-- GOALS -->
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    GOALS
+                </div>
+
+                <h3 id="goal-count">
+                    0 / 4
+                </h3>
+
+                <p>
+                    Goals completed
+                </p>
+
+            </div>
+
+
+
+            <!-- PROGRESS -->
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    PROGRESS
+                </div>
+
+                <h3 id="overview-progress">
+                    0%
+                </h3>
+
+                <p>
+                    Today's progress
+                </p>
+
+            </div>
+
+
+
+            <!-- FOCUS -->
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    FOCUS
+                </div>
+
+                <h3>
+                    25 min
+                </h3>
+
+                <p>
+                    Study timer
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
          NOTES
     ========================== -->
 
@@ -166,6 +276,7 @@
 
 
         <div class="notes-container">
+
 
             <input
                 type="text"
@@ -221,9 +332,11 @@
         </div>
 
 
-        <!-- ADD SESSION -->
+
+        <!-- ADD STUDY SESSION -->
 
         <div class="schedule-form">
+
 
             <input
                 type="text"
@@ -238,38 +351,40 @@
                     Select Day
                 </option>
 
-                <option>
+                <option value="Monday">
                     Monday
                 </option>
 
-                <option>
+                <option value="Tuesday">
                     Tuesday
                 </option>
 
-                <option>
+                <option value="Wednesday">
                     Wednesday
                 </option>
 
-                <option>
+                <option value="Thursday">
                     Thursday
                 </option>
 
-                <option>
+                <option value="Friday">
                     Friday
                 </option>
 
-                <option>
+                <option value="Saturday">
                     Saturday
                 </option>
 
-                <option>
+                <option value="Sunday">
                     Sunday
                 </option>
 
             </select>
 
 
+
             <div class="time-inputs">
+
 
                 <div>
 
@@ -298,7 +413,9 @@
 
                 </div>
 
+
             </div>
+
 
 
             <button
@@ -308,7 +425,9 @@
                 + Add Study Session
             </button>
 
+
         </div>
+
 
 
         <!-- SCHEDULE LIST -->
@@ -317,6 +436,9 @@
             class="timetable-container"
             id="scheduleContainer"
         >
+
+
+            <!-- DEFAULT SESSION 1 -->
 
             <div class="schedule-card">
 
@@ -339,6 +461,9 @@
             </div>
 
 
+
+            <!-- DEFAULT SESSION 2 -->
+
             <div class="schedule-card">
 
                 <div class="time">
@@ -360,6 +485,9 @@
             </div>
 
 
+
+            <!-- DEFAULT SESSION 3 -->
+
             <div class="schedule-card">
 
                 <div class="time">
@@ -379,6 +507,7 @@
                 </div>
 
             </div>
+
 
         </div>
 
@@ -408,6 +537,7 @@
         </div>
 
 
+
         <div class="goals-container">
 
 
@@ -425,6 +555,7 @@
             </div>
 
 
+
             <div class="goal">
 
                 <input
@@ -439,6 +570,7 @@
             </div>
 
 
+
             <div class="goal">
 
                 <input
@@ -451,6 +583,7 @@
                 </label>
 
             </div>
+
 
 
             <div class="goal">
@@ -468,6 +601,7 @@
 
 
         </div>
+
 
 
         <!-- PROGRESS -->
@@ -502,7 +636,7 @@
 
 
     <!-- =========================
-         TIMER
+         STUDY TIMER
     ========================== -->
 
     <section
@@ -523,14 +657,18 @@
         </div>
 
 
+
         <div class="timer-card">
+
 
             <div id="timer-display">
                 25:00
             </div>
 
 
+
             <div class="timer-buttons">
+
 
                 <button
                     class="olive-button"
@@ -547,7 +685,9 @@
                     Reset
                 </button>
 
+
             </div>
+
 
         </div>
 
@@ -577,8 +717,12 @@
 
 
 
+    <!-- JAVASCRIPT -->
+
     <script src="script.js"></script>
+
 
 </body>
 
 </html>
+
