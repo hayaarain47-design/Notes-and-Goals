@@ -195,12 +195,21 @@ function updateOverview() {
    STUDY TIMER
 ========================= */
 
-let timeLeft = 25 * 60;
+let selectedMinutes = 25;
+
+let timeLeft = selectedMinutes * 60;
 
 let timerInterval = null;
 
 const timerDisplay =
-    document.getElementById("timer-display");
+    document.getElementById(
+        "timer-display"
+    );
+
+const timerStatus =
+    document.getElementById(
+        "timer-status"
+    );
 
 
 function updateTimerDisplay() {
@@ -223,10 +232,83 @@ function updateTimerDisplay() {
 }
 
 
+/* SET TIMER */
+
+function setTimer(minutes) {
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+    selectedMinutes = minutes;
+
+    timeLeft = minutes * 60;
+
+
+    updateTimerDisplay();
+
+
+    if (timerStatus) {
+
+        timerStatus.textContent =
+            "Ready to focus";
+
+    }
+
+
+    document
+        .querySelectorAll(".preset-button")
+        .forEach(function(button) {
+
+            button.classList.remove(
+                "active-preset"
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(".preset-button")
+        .forEach(function(button) {
+
+            if (
+                button.textContent.trim() ===
+                minutes + " min"
+            ) {
+
+                button.classList.add(
+                    "active-preset"
+                );
+
+            }
+
+        });
+
+}
+
+
+/* START */
+
 function startTimer() {
 
     if (timerInterval !== null) {
         return;
+    }
+
+
+    if (timeLeft <= 0) {
+
+        timeLeft =
+            selectedMinutes * 60;
+
+    }
+
+
+    if (timerStatus) {
+
+        timerStatus.textContent =
+            "Focus mode is active";
+
     }
 
 
@@ -241,9 +323,20 @@ function startTimer() {
 
             } else {
 
-                clearInterval(timerInterval);
+                clearInterval(
+                    timerInterval
+                );
 
                 timerInterval = null;
+
+
+                if (timerStatus) {
+
+                    timerStatus.textContent =
+                        "Session completed";
+
+                }
+
 
                 showReminder(
                     "Study Session"
@@ -252,19 +345,65 @@ function startTimer() {
             }
 
         }, 1000);
+
 }
 
 
-function resetTimer() {
+/* PAUSE */
 
-    clearInterval(timerInterval);
+function pauseTimer() {
+
+    if (timerInterval === null) {
+
+        return;
+
+    }
+
+
+    clearInterval(
+        timerInterval
+    );
 
     timerInterval = null;
 
-    timeLeft = 25 * 60;
+
+    if (timerStatus) {
+
+        timerStatus.textContent =
+            "Timer paused";
+
+    }
+
+}
+
+
+/* RESET */
+
+function resetTimer() {
+
+    clearInterval(
+        timerInterval
+    );
+
+    timerInterval = null;
+
+
+    timeLeft =
+        selectedMinutes * 60;
+
 
     updateTimerDisplay();
+
+
+    if (timerStatus) {
+
+        timerStatus.textContent =
+            "Ready to focus";
+
+    }
+
 }
+
 
 
 /* =========================
