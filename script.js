@@ -2,6 +2,7 @@
    RANDOM MOTIVATION QUOTE
 ========================= */
 
+
 const quotes = [
     "Small progress is still progress.",
     "Your future is created by what you do today.",
