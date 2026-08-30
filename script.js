@@ -1,7 +1,12 @@
+/* =====================================================
+   NOTES & GOALS
+   COMPLETE JAVASCRIPT
+===================================================== */
+
+
 /* =========================
    RANDOM MOTIVATION QUOTE
 ========================= */
-
 
 const quotes = [
     "Small progress is still progress.",
@@ -18,106 +23,30 @@ const quotes = [
     "Focus on the step in front of you, not the whole staircase."
 ];
 
-const quoteElement = document.getElementById("quote");
 
-if (quoteElement) {
+function showRandomQuote() {
+
+    const quoteElement =
+        document.getElementById("quote");
+
+    if (!quoteElement) {
+        return;
+    }
+
+
     const randomIndex =
-        Math.floor(Math.random() * quotes.length);
+        Math.floor(
+            Math.random() * quotes.length
+        );
+
 
     quoteElement.textContent =
         quotes[randomIndex];
 }
 
 
-/* =========================
-   GOALS
-========================= */
+showRandomQuote();
 
-const goals = document.querySelectorAll(
-    '.goal input[type="checkbox"]'
-);
-
-const progressText =
-    document.getElementById("progress-text");
-
-const progressFill =
-    document.getElementById("progress-fill");
-
-
-function updateProgress() {
-
-    const totalGoals = goals.length;
-
-    const completedGoals =
-        document.querySelectorAll(
-            '.goal input[type="checkbox"]:checked'
-        ).length;
-
-    const percentage =
-        totalGoals === 0
-            ? 0
-            : Math.round(
-                (completedGoals / totalGoals) * 100
-            );
-
-    if (progressText) {
-        progressText.textContent =
-            percentage + "%";
-    }
-
-    if (progressFill) {
-        progressFill.style.width =
-            percentage + "%";
-    }
-
-
-    const goalStatus = [];
-
-    goals.forEach(function(goal) {
-        goalStatus.push(goal.checked);
-    });
-
-    localStorage.setItem(
-        "notesGoalsStatus",
-        JSON.stringify(goalStatus)
-    );
-
-    updateOverview();
-}
-
-
-function loadGoals() {
-
-    const savedGoals =
-        localStorage.getItem(
-            "notesGoalsStatus"
-        );
-
-    if (!savedGoals) {
-        return;
-    }
-
-    const goalStatus =
-        JSON.parse(savedGoals);
-
-    goals.forEach(function(goal, index) {
-
-        if (goalStatus[index]) {
-            goal.checked = true;
-        }
-
-    });
-}
-
-
-goals.forEach(function(goal) {
-
-    goal.addEventListener(
-        "change",
-        updateProgress
-    );
-
-});
 
 
 /* =========================
@@ -127,10 +56,16 @@ goals.forEach(function(goal) {
 function updateOverview() {
 
     const dateElement =
-        document.getElementById("current-date");
+        document.getElementById(
+            "current-date"
+        );
+
 
     const goalCount =
-        document.getElementById("goal-count");
+        document.getElementById(
+            "goal-count"
+        );
+
 
     const overviewProgress =
         document.getElementById(
@@ -138,7 +73,8 @@ function updateOverview() {
         );
 
 
-    const today = new Date();
+    const today =
+        new Date();
 
 
     if (dateElement) {
@@ -156,29 +92,32 @@ function updateOverview() {
     }
 
 
-    const totalGoals =
-        goals.length;
+    const total =
+        dailyGoals.length;
 
-    const completedGoals =
-        document.querySelectorAll(
-            '.goal input[type="checkbox"]:checked'
+
+    const completed =
+        dailyGoals.filter(
+            function(goal) {
+                return goal.completed;
+            }
         ).length;
 
 
     const percentage =
-        totalGoals === 0
+        total === 0
             ? 0
             : Math.round(
-                (completedGoals / totalGoals) * 100
+                (completed / total) * 100
             );
 
 
     if (goalCount) {
 
         goalCount.textContent =
-            completedGoals +
+            completed +
             " / " +
-            totalGoals;
+            total;
 
     }
 
@@ -186,222 +125,562 @@ function updateOverview() {
     if (overviewProgress) {
 
         overviewProgress.textContent =
-            percentage + "%";
+            percentage +
+            "%";
 
     }
+
 }
+
 
 
 /* =========================
-   STUDY TIMER
+   DAILY GOALS
 ========================= */
 
-let selectedMinutes = 25;
+let dailyGoals =
+    JSON.parse(
+        localStorage.getItem(
+            "notesGoalsDailyGoals"
+        )
+    ) || [];
 
-let timeLeft = selectedMinutes * 60;
 
-let timerInterval = null;
+function saveDailyGoals() {
 
-const timerDisplay =
-    document.getElementById(
-        "timer-display"
+    localStorage.setItem(
+        "notesGoalsDailyGoals",
+        JSON.stringify(dailyGoals)
     );
-
-const timerStatus =
-    document.getElementById(
-        "timer-status"
-    );
-
-
-function updateTimerDisplay() {
-
-    const minutes =
-        Math.floor(timeLeft / 60);
-
-    const seconds =
-        timeLeft % 60;
-
-
-    if (timerDisplay) {
-
-        timerDisplay.textContent =
-            String(minutes).padStart(2, "0") +
-            ":" +
-            String(seconds).padStart(2, "0");
-
-    }
-}
-
-
-/* SET TIMER */
-
-function setTimer(minutes) {
-
-    clearInterval(timerInterval);
-
-    timerInterval = null;
-
-    selectedMinutes = minutes;
-
-    timeLeft = minutes * 60;
-
-
-    updateTimerDisplay();
-
-
-    if (timerStatus) {
-
-        timerStatus.textContent =
-            "Ready to focus";
-
-    }
-
-
-    document
-        .querySelectorAll(".preset-button")
-        .forEach(function(button) {
-
-            button.classList.remove(
-                "active-preset"
-            );
-
-        });
-
-
-    document
-        .querySelectorAll(".preset-button")
-        .forEach(function(button) {
-
-            if (
-                button.textContent.trim() ===
-                minutes + " min"
-            ) {
-
-                button.classList.add(
-                    "active-preset"
-                );
-
-            }
-
-        });
 
 }
 
 
-/* START */
+function addGoal() {
 
-function startTimer() {
+    const input =
+        document.getElementById(
+            "goalInput"
+        );
 
-    if (timerInterval !== null) {
+
+    if (!input) {
         return;
     }
 
 
-    if (timeLeft <= 0) {
+    const text =
+        input.value.trim();
 
-        timeLeft =
-            selectedMinutes * 60;
 
+    if (text === "") {
+
+        alert(
+            "Please write a goal first."
+        );
+
+        return;
     }
 
 
-    if (timerStatus) {
+    const newGoal = {
 
-        timerStatus.textContent =
-            "Focus mode is active";
+        id: Date.now(),
 
+        text: text,
+
+        completed: false
+
+    };
+
+
+    dailyGoals.push(
+        newGoal
+    );
+
+
+    saveDailyGoals();
+
+    displayGoals();
+
+
+    input.value = "";
+
+}
+
+
+function displayGoals() {
+
+    const container =
+        document.getElementById(
+            "goalsContainer"
+        );
+
+
+    if (!container) {
+        return;
     }
 
 
-    timerInterval =
-        setInterval(function() {
+    container.innerHTML = "";
 
-            if (timeLeft > 0) {
 
-                timeLeft--;
+    dailyGoals.forEach(
+        function(goal) {
 
-                updateTimerDisplay();
-
-            } else {
-
-                clearInterval(
-                    timerInterval
+            const element =
+                document.createElement(
+                    "div"
                 );
 
-                timerInterval = null;
+
+            element.className =
+                "goal";
 
 
-                if (timerStatus) {
+            if (goal.completed) {
 
-                    timerStatus.textContent =
-                        "Session completed";
+                element.classList.add(
+                    "completed-goal"
+                );
+
+            }
+
+
+            element.innerHTML = `
+
+                <input
+                    type="checkbox"
+                    ${goal.completed ? "checked" : ""}
+                    onchange="toggleGoal(${goal.id})"
+                >
+
+                <label>
+                    ${escapeHTML(goal.text)}
+                </label>
+
+                <button
+                    class="goal-delete"
+                    onclick="deleteGoal(${goal.id})"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            container.appendChild(
+                element
+            );
+
+        }
+    );
+
+
+    updateProgress();
+
+}
+
+
+function toggleGoal(id) {
+
+    dailyGoals =
+        dailyGoals.map(
+            function(goal) {
+
+                if (goal.id === id) {
+
+                    goal.completed =
+                        !goal.completed;
 
                 }
 
+                return goal;
 
-                showReminder(
-                    "Study Session"
-                );
+            }
+        );
+
+
+    saveDailyGoals();
+
+    displayGoals();
+
+}
+
+
+function deleteGoal(id) {
+
+    dailyGoals =
+        dailyGoals.filter(
+            function(goal) {
+
+                return goal.id !== id;
+
+            }
+        );
+
+
+    saveDailyGoals();
+
+    displayGoals();
+
+}
+
+
+function updateProgress() {
+
+    const total =
+        dailyGoals.length;
+
+
+    const completed =
+        dailyGoals.filter(
+            function(goal) {
+
+                return goal.completed;
+
+            }
+        ).length;
+
+
+    const percentage =
+        total === 0
+            ? 0
+            : Math.round(
+                (completed / total) * 100
+            );
+
+
+    const progressText =
+        document.getElementById(
+            "progress-text"
+        );
+
+
+    const progressFill =
+        document.getElementById(
+            "progress-fill"
+        );
+
+
+    if (progressText) {
+
+        progressText.textContent =
+            percentage +
+            "%";
+
+    }
+
+
+    if (progressFill) {
+
+        progressFill.style.width =
+            percentage +
+            "%";
+
+    }
+
+
+    updateOverview();
+
+}
+
+
+/* ENTER KEY FOR GOAL */
+
+const goalInput =
+    document.getElementById(
+        "goalInput"
+    );
+
+
+if (goalInput) {
+
+    goalInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                addGoal();
 
             }
 
-        }, 1000);
+        }
+    );
 
 }
 
 
-/* PAUSE */
 
-function pauseTimer() {
+/* =========================
+   NOTES
+========================= */
 
-    if (timerInterval === null) {
+let savedNotes =
+    JSON.parse(
+        localStorage.getItem(
+            "notesGoalsNotes"
+        )
+    ) || [];
+
+
+let editingNoteId = null;
+
+
+function saveNote() {
+
+    const titleInput =
+        document.getElementById(
+            "noteTitle"
+        );
+
+
+    const textInput =
+        document.getElementById(
+            "noteText"
+        );
+
+
+    const title =
+        titleInput.value.trim();
+
+
+    const text =
+        textInput.value.trim();
+
+
+    if (
+        title === "" ||
+        text === ""
+    ) {
+
+        alert(
+            "Please enter a title and your notes."
+        );
 
         return;
+    }
+
+
+    if (
+        editingNoteId !== null
+    ) {
+
+        savedNotes =
+            savedNotes.map(
+                function(note) {
+
+                    if (
+                        note.id ===
+                        editingNoteId
+                    ) {
+
+                        return {
+
+                            id: note.id,
+
+                            title: title,
+
+                            text: text
+
+                        };
+
+                    }
+
+
+                    return note;
+
+                }
+            );
+
+
+        editingNoteId = null;
+
+
+        document.querySelector(
+            ".notes-container .olive-button"
+        ).textContent =
+            "Save Note";
+
+    }
+
+    else {
+
+        savedNotes.push({
+
+            id: Date.now(),
+
+            title: title,
+
+            text: text
+
+        });
 
     }
 
 
-    clearInterval(
-        timerInterval
+    localStorage.setItem(
+        "notesGoalsNotes",
+        JSON.stringify(savedNotes)
     );
 
-    timerInterval = null;
+
+    displayNotes();
 
 
-    if (timerStatus) {
+    titleInput.value = "";
 
-        timerStatus.textContent =
-            "Timer paused";
-
-    }
+    textInput.value = "";
 
 }
 
 
-/* RESET */
+function displayNotes() {
 
-function resetTimer() {
+    const container =
+        document.getElementById(
+            "savedNotes"
+        );
 
-    clearInterval(
-        timerInterval
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    savedNotes.forEach(
+        function(note) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "note-card";
+
+
+            card.innerHTML = `
+
+                <div class="note-content">
+
+                    <h3>
+                        ${escapeHTML(note.title)}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(note.text)}
+                    </p>
+
+                </div>
+
+
+                <div class="note-actions">
+
+                    <button
+                        class="edit-button"
+                        onclick="editNote(${note.id})"
+                    >
+                        Edit
+                    </button>
+
+
+                    <button
+                        class="delete-button"
+                        onclick="deleteNote(${note.id})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
     );
 
-    timerInterval = null;
+}
 
 
-    timeLeft =
-        selectedMinutes * 60;
+function editNote(id) {
+
+    const note =
+        savedNotes.find(
+            function(item) {
+
+                return item.id === id;
+
+            }
+        );
 
 
-    updateTimerDisplay();
-
-
-    if (timerStatus) {
-
-        timerStatus.textContent =
-            "Ready to focus";
-
+    if (!note) {
+        return;
     }
+
+
+    document.getElementById(
+        "noteTitle"
+    ).value =
+        note.title;
+
+
+    document.getElementById(
+        "noteText"
+    ).value =
+        note.text;
+
+
+    editingNoteId =
+        id;
+
+
+    document.querySelector(
+        ".notes-container .olive-button"
+    ).textContent =
+        "Update Note";
+
+
+    document.getElementById(
+        "notes"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+function deleteNote(id) {
+
+    savedNotes =
+        savedNotes.filter(
+            function(note) {
+
+                return note.id !== id;
+
+            }
+        );
+
+
+    localStorage.setItem(
+        "notesGoalsNotes",
+        JSON.stringify(savedNotes)
+    );
+
+
+    displayNotes();
 
 }
 
@@ -419,17 +698,35 @@ let schedules =
     ) || [];
 
 
+function saveSchedules() {
+
+    localStorage.setItem(
+        "notesGoalsSchedules",
+        JSON.stringify(schedules)
+    );
+
+}
+
+
 function formatTime(time) {
 
-    const parts = time.split(":");
+    const parts =
+        time.split(":");
+
 
     let hour =
         parseInt(parts[0]);
 
-    const minutes = parts[1];
+
+    const minutes =
+        parts[1];
+
 
     const ampm =
-        hour >= 12 ? "PM" : "AM";
+        hour >= 12
+            ? "PM"
+            : "AM";
+
 
     hour =
         hour % 12 || 12;
@@ -442,6 +739,7 @@ function formatTime(time) {
         " " +
         ampm
     );
+
 }
 
 
@@ -449,23 +747,34 @@ function addSchedule() {
 
     const subject =
         document
-            .getElementById("subjectInput")
+            .getElementById(
+                "subjectInput"
+            )
             .value
             .trim();
 
+
     const day =
         document
-            .getElementById("dayInput")
+            .getElementById(
+                "dayInput"
+            )
             .value;
+
 
     const start =
         document
-            .getElementById("startTime")
+            .getElementById(
+                "startTime"
+            )
             .value;
+
 
     const end =
         document
-            .getElementById("endTime")
+            .getElementById(
+                "endTime"
+            )
             .value;
 
 
@@ -494,7 +803,7 @@ function addSchedule() {
     }
 
 
-    const newSchedule = {
+    schedules.push({
 
         id: Date.now(),
 
@@ -506,10 +815,8 @@ function addSchedule() {
 
         end: end
 
-    };
+    });
 
-
-    schedules.push(newSchedule);
 
     saveSchedules();
 
@@ -520,26 +827,21 @@ function addSchedule() {
         "subjectInput"
     ).value = "";
 
+
     document.getElementById(
         "dayInput"
     ).value = "";
+
 
     document.getElementById(
         "startTime"
     ).value = "";
 
+
     document.getElementById(
         "endTime"
     ).value = "";
-}
 
-
-function saveSchedules() {
-
-    localStorage.setItem(
-        "notesGoalsSchedules",
-        JSON.stringify(schedules)
-    );
 }
 
 
@@ -550,83 +852,76 @@ function displaySchedules() {
             "scheduleContainer"
         );
 
+
     if (!container) {
         return;
     }
 
 
-    container
-        .querySelectorAll(".saved-schedule")
-        .forEach(function(card) {
-            card.remove();
-        });
+    container.innerHTML = "";
 
 
-    schedules.forEach(function(item) {
+    schedules.forEach(
+        function(item) {
 
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "schedule-card saved-schedule";
-
-
-        card.setAttribute(
-            "data-id",
-            item.id
-        );
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        card.setAttribute(
-            "data-day",
-            item.day
-        );
+            card.className =
+                "schedule-card saved-schedule";
 
 
-        card.innerHTML = `
-
-            <div class="time">
-
-                ${formatTime(item.start)}
-
-                <br>
-                -
-                <br>
-
-                ${formatTime(item.end)}
-
-            </div>
+            card.dataset.day =
+                item.day;
 
 
-            <div class="subject">
+            card.innerHTML = `
 
-                <h3>
-                    ${escapeHTML(item.subject)}
-                </h3>
+                <div class="time">
 
-                <p>
-                    ${item.day} • Study Session
-                </p>
+                    ${formatTime(item.start)}
+                    -
+                    ${formatTime(item.end)}
 
-            </div>
+                </div>
 
 
-            <button
-                class="delete-button"
-                onclick="deleteSchedule(${item.id})"
-            >
-                Delete
-            </button>
+                <div class="subject">
 
-        `;
+                    <h3>
+                        ${escapeHTML(item.subject)}
+                    </h3>
+
+                    <p>
+                        ${item.day} • Study Session
+                    </p>
+
+                </div>
 
 
-        container.appendChild(card);
+                <button
+                    class="delete-button"
+                    onclick="deleteSchedule(${item.id})"
+                >
+                    Delete
+                </button>
 
-    });
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
 
 
     highlightToday();
+
 }
 
 
@@ -635,19 +930,19 @@ function deleteSchedule(id) {
     schedules =
         schedules.filter(
             function(item) {
+
                 return item.id !== id;
+
             }
         );
+
 
     saveSchedules();
 
     displaySchedules();
+
 }
 
-
-/* =========================
-   HIGHLIGHT TODAY
-========================= */
 
 function highlightToday() {
 
@@ -660,37 +955,29 @@ function highlightToday() {
         );
 
 
-    const cards =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".saved-schedule"
+        )
+        .forEach(
+            function(card) {
+
+                if (
+                    card.dataset.day ===
+                    today
+                ) {
+
+                    card.classList.add(
+                        "today-session"
+                    );
+
+                }
+
+            }
         );
 
-
-    cards.forEach(function(card) {
-
-        if (
-            card.dataset.day === today
-        ) {
-
-            card.classList.add(
-                "today-session"
-            );
-
-        } else {
-
-            card.classList.remove(
-                "today-session"
-            );
-
-        }
-
-    });
 }
 
-
-/* =========================
-   WEEK DAYS
-========================= */
 
 function highlightCurrentDay() {
 
@@ -703,36 +990,33 @@ function highlightCurrentDay() {
         );
 
 
-    const days =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".week-day"
+        )
+        .forEach(
+            function(day) {
+
+                if (
+                    day.dataset.weekday ===
+                    today
+                ) {
+
+                    day.classList.add(
+                        "active-day"
+                    );
+
+                }
+
+            }
         );
 
-
-    days.forEach(function(day) {
-
-        if (
-            day.dataset.weekday === today
-        ) {
-
-            day.classList.add(
-                "active-day"
-            );
-
-        } else {
-
-            day.classList.remove(
-                "active-day"
-            );
-
-        }
-
-    });
 }
 
 
+
 /* =========================
-   STUDY REMINDER
+   REMINDERS
 ========================= */
 
 const reminderBox =
@@ -764,19 +1048,27 @@ function showReminder(subject) {
     `;
 
 
-    reminderBox.classList.add("show");
+    reminderBox.classList.add(
+        "show"
+    );
 
 
-    setTimeout(function() {
+    setTimeout(
+        function() {
 
-        reminderBox.classList.remove("show");
+            reminderBox.classList.remove(
+                "show"
+            );
 
-    }, 10000);
+        },
+        10000
+    );
 
 
     if (
         "Notification" in window &&
-        Notification.permission === "granted"
+        Notification.permission ===
+        "granted"
     ) {
 
         new Notification(
@@ -789,6 +1081,7 @@ function showReminder(subject) {
         );
 
     }
+
 }
 
 
@@ -796,12 +1089,14 @@ function requestNotificationPermission() {
 
     if (
         "Notification" in window &&
-        Notification.permission === "default"
+        Notification.permission ===
+        "default"
     ) {
 
         Notification.requestPermission();
 
     }
+
 }
 
 
@@ -812,7 +1107,8 @@ function checkStudyTime() {
     }
 
 
-    const now = new Date();
+    const now =
+        new Date();
 
 
     const currentDay =
@@ -825,359 +1121,351 @@ function checkStudyTime() {
 
 
     const currentTime =
-        now.getHours()
-            .toString()
-            .padStart(2, "0")
+        String(
+            now.getHours()
+        ).padStart(2, "0")
         +
         ":" +
-        now.getMinutes()
-            .toString()
-            .padStart(2, "0");
+        String(
+            now.getMinutes()
+        ).padStart(2, "0");
 
 
-    schedules.forEach(function(item) {
-
-        if (
-            item.day === currentDay &&
-            item.start === currentTime
-        ) {
-
-            const reminderKey =
-                item.id +
-                "-" +
-                currentDay +
-                "-" +
-                currentTime;
-
+    schedules.forEach(
+        function(item) {
 
             if (
-                localStorage.getItem(
-                    "reminder-" +
-                    reminderKey
-                )
+                item.day === currentDay &&
+                item.start === currentTime
             ) {
-                return;
+
+                const key =
+                    "reminder-" +
+                    item.id +
+                    "-" +
+                    currentDay +
+                    "-" +
+                    currentTime;
+
+
+                if (
+                    localStorage.getItem(
+                        key
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                showReminder(
+                    item.subject
+                );
+
+
+                localStorage.setItem(
+                    key,
+                    "shown"
+                );
+
             }
 
-
-            showReminder(item.subject);
-
-
-            localStorage.setItem(
-                "reminder-" +
-                reminderKey,
-                "shown"
-            );
-
         }
+    );
 
-    });
 }
 
 
+
 /* =========================
-   NOTES
+   STUDY TIMER
 ========================= */
 
-let savedNotes =
-    JSON.parse(
-        localStorage.getItem(
-            "notesGoalsNotes"
-        )
-    ) || [];
+let selectedMinutes = 25;
+
+let timeLeft =
+    selectedMinutes * 60;
+
+let timerInterval = null;
 
 
-let editingNoteId = null;
+const timerDisplay =
+    document.getElementById(
+        "timer-display"
+    );
 
 
-function saveNote() {
-
-    const title =
-        document
-            .getElementById("noteTitle")
-            .value
-            .trim();
-
-    const text =
-        document
-            .getElementById("noteText")
-            .value
-            .trim();
+const timerStatus =
+    document.getElementById(
+        "timer-status"
+    );
 
 
-    if (
-        title === "" ||
-        text === ""
-    ) {
+function updateTimerDisplay() {
 
-        alert(
-            "Please enter a title and your notes."
+    const minutes =
+        Math.floor(
+            timeLeft / 60
         );
 
-        return;
+
+    const seconds =
+        timeLeft % 60;
+
+
+    if (timerDisplay) {
+
+        timerDisplay.textContent =
+            String(minutes).padStart(2, "0") +
+            ":" +
+            String(seconds).padStart(2, "0");
+
+    }
+
+}
+
+
+function setTimer(minutes) {
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    timerInterval = null;
+
+
+    selectedMinutes =
+        minutes;
+
+
+    timeLeft =
+        minutes * 60;
+
+
+    updateTimerDisplay();
+
+
+    if (timerStatus) {
+
+        timerStatus.textContent =
+            "Ready to focus";
+
     }
 
 
-    /* EDIT EXISTING NOTE */
+    document
+        .querySelectorAll(
+            ".preset-button"
+        )
+        .forEach(
+            function(button) {
 
-    if (editingNoteId !== null) {
+                button.classList.remove(
+                    "active-preset"
+                );
 
-        savedNotes =
-            savedNotes.map(
-                function(note) {
+            }
+        );
 
-                    if (
-                        note.id === editingNoteId
-                    ) {
 
-                        return {
+    document
+        .querySelectorAll(
+            ".preset-button"
+        )
+        .forEach(
+            function(button) {
 
-                            id: note.id,
+                if (
+                    button.textContent.trim() ===
+                    minutes + " min"
+                ) {
 
-                            title: title,
+                    button.classList.add(
+                        "active-preset"
+                    );
 
-                            text: text
+                }
 
-                        };
+            }
+        );
+
+}
+
+
+function startTimer() {
+
+    if (
+        timerInterval !== null
+    ) {
+
+        return;
+
+    }
+
+
+    if (timeLeft <= 0) {
+
+        timeLeft =
+            selectedMinutes * 60;
+
+    }
+
+
+    if (timerStatus) {
+
+        timerStatus.textContent =
+            "Focus mode is active";
+
+    }
+
+
+    timerInterval =
+        setInterval(
+            function() {
+
+                if (
+                    timeLeft > 0
+                ) {
+
+                    timeLeft--;
+
+                    updateTimerDisplay();
+
+                }
+
+                else {
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    timerInterval = null;
+
+
+                    if (timerStatus) {
+
+                        timerStatus.textContent =
+                            "Session completed";
 
                     }
 
-                    return note;
+
+                    showReminder(
+                        "Study Session"
+                    );
 
                 }
-            );
 
-
-        editingNoteId = null;
-
-        document.querySelector(
-            ".notes-container .olive-button"
-        ).textContent = "Save Note";
-
-    }
-
-
-    /* CREATE NEW NOTE */
-
-    else {
-
-        const newNote = {
-
-            id: Date.now(),
-
-            title: title,
-
-            text: text
-
-        };
-
-
-        savedNotes.push(
-            newNote
+            },
+            1000
         );
 
+}
+
+
+function pauseTimer() {
+
+    if (
+        timerInterval === null
+    ) {
+
+        return;
+
     }
 
 
-    localStorage.setItem(
-        "notesGoalsNotes",
-        JSON.stringify(savedNotes)
+    clearInterval(
+        timerInterval
     );
 
 
-    displayNotes();
+    timerInterval = null;
 
 
-    document.getElementById(
-        "noteTitle"
-    ).value = "";
+    if (timerStatus) {
 
-    document.getElementById(
-        "noteText"
-    ).value = "";
-}
+        timerStatus.textContent =
+            "Timer paused";
 
-
-/* =========================
-   DISPLAY NOTES
-========================= */
-
-function displayNotes() {
-
-    const container =
-        document.getElementById(
-            "savedNotes"
-        );
-
-
-    if (!container) {
-        return;
     }
 
-
-    container.innerHTML = "";
-
-
-    savedNotes.forEach(function(note) {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "note-card";
-
-
-        card.innerHTML = `
-
-            <div class="note-content">
-
-                <h3>
-                    ${escapeHTML(note.title)}
-                </h3>
-
-                <p>
-                    ${escapeHTML(note.text)}
-                </p>
-
-            </div>
-
-
-            <div class="note-actions">
-
-                <button
-                    class="edit-button"
-                    onclick="editNote(${note.id})"
-                >
-                    Edit
-                </button>
-
-
-                <button
-                    class="delete-button"
-                    onclick="deleteNote(${note.id})"
-                >
-                    Delete
-                </button>
-
-            </div>
-
-        `;
-
-
-        container.appendChild(card);
-
-    });
 }
 
 
-/* =========================
-   EDIT NOTE
-========================= */
+function resetTimer() {
 
-function editNote(id) {
-
-    const note =
-        savedNotes.find(
-            function(item) {
-                return item.id === id;
-            }
-        );
-
-
-    if (!note) {
-        return;
-    }
-
-
-    document.getElementById(
-        "noteTitle"
-    ).value = note.title;
-
-
-    document.getElementById(
-        "noteText"
-    ).value = note.text;
-
-
-    editingNoteId = id;
-
-
-    document.querySelector(
-        ".notes-container .olive-button"
-    ).textContent = "Update Note";
-
-
-    document.getElementById(
-        "notes"
-    ).scrollIntoView({
-        behavior: "smooth"
-    });
-}
-
-
-/* =========================
-   DELETE NOTE
-========================= */
-
-function deleteNote(id) {
-
-    savedNotes =
-        savedNotes.filter(
-            function(note) {
-                return note.id !== id;
-            }
-        );
-
-
-    localStorage.setItem(
-        "notesGoalsNotes",
-        JSON.stringify(savedNotes)
+    clearInterval(
+        timerInterval
     );
 
 
-    displayNotes();
+    timerInterval = null;
+
+
+    timeLeft =
+        selectedMinutes * 60;
+
+
+    updateTimerDisplay();
+
+
+    if (timerStatus) {
+
+        timerStatus.textContent =
+            "Ready to focus";
+
+    }
+
 }
 
 
+
 /* =========================
-   SAFE TEXT
+   SAFE HTML
 ========================= */
 
 function escapeHTML(text) {
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    div.textContent = text;
+
+    div.textContent =
+        text;
+
 
     return div.innerHTML;
+
 }
+
 
 
 /* =========================
    INITIALIZE
 ========================= */
 
-loadGoals();
+displayGoals();
 
-updateProgress();
+displayNotes();
+
+displaySchedules();
+
+highlightCurrentDay();
 
 updateOverview();
 
 updateTimerDisplay();
-
-displaySchedules();
-
-displayNotes();
-
-highlightCurrentDay();
 
 requestNotificationPermission();
 
 checkStudyTime();
 
 
-/* CHECK REMINDER EVERY MINUTE */
+/* Check reminders every minute */
 
 setInterval(
     checkStudyTime,
