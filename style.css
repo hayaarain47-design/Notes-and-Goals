@@ -667,4 +667,44 @@ footer p {
     letter-spacing: 2px;
     margin-right: 15px;
 }
+/* DELETE BUTTON */
+
+.delete-button {
+    margin-left: auto;
+    padding: 8px 13px;
+    background: transparent;
+    color: #a6b76a;
+    border: 1px solid #3d4630;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.delete-button:hover {
+    background: #a6b76a;
+    color: #0c0f09;
+}
+
+.note-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.note-content {
+    flex: 1;
+}
+
+@media (max-width: 600px) {
+
+    .note-card {
+        flex-direction: column;
+    }
+
+    .delete-button {
+        margin-left: 0;
+    }
+
+}
 
