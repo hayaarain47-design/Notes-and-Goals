@@ -798,3 +798,77 @@ footer p {
     }
 
 }
+/* =========================
+   STUDY TIMER
+========================= */
+
+.timer-subtitle {
+    display: block;
+    margin-top: 10px;
+    color: #888f82;
+    font-size: 14px;
+}
+
+.timer-presets {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.preset-button {
+    padding: 9px 16px;
+    background: #171c14;
+    color: #aeb5a2;
+    border: 1px solid #30372a;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.preset-button:hover,
+.active-preset {
+    background: #a6b76a;
+    color: #0c0f09;
+    border-color: #a6b76a;
+}
+
+.timer-status {
+    margin-top: 12px;
+    color: #8f9885;
+    font-size: 14px;
+}
+
+.timer-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.timer-buttons button {
+    min-width: 90px;
+}
+
+@media (max-width: 500px) {
+
+    .timer-presets {
+        gap: 7px;
+    }
+
+    .preset-button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .timer-buttons {
+        flex-direction: column;
+    }
+
+    .timer-buttons button {
+        width: 100%;
+    }
+
+}
