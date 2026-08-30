@@ -20,11 +20,11 @@ const quotes = [
 const quoteElement = document.getElementById("quote");
 
 if (quoteElement) {
-    const randomIndex = Math.floor(
-        Math.random() * quotes.length
-    );
+    const randomIndex =
+        Math.floor(Math.random() * quotes.length);
 
-    quoteElement.textContent = quotes[randomIndex];
+    quoteElement.textContent =
+        quotes[randomIndex];
 }
 
 
@@ -59,11 +59,15 @@ function updateProgress() {
                 (completedGoals / totalGoals) * 100
             );
 
-    progressText.textContent =
-        percentage + "%";
+    if (progressText) {
+        progressText.textContent =
+            percentage + "%";
+    }
 
-    progressFill.style.width =
-        percentage + "%";
+    if (progressFill) {
+        progressFill.style.width =
+            percentage + "%";
+    }
 
 
     const goalStatus = [];
@@ -486,8 +490,6 @@ function displaySchedules() {
 }
 
 
-/* DELETE TIMETABLE SESSION */
-
 function deleteSchedule(id) {
 
     schedules =
@@ -496,7 +498,6 @@ function deleteSchedule(id) {
                 return item.id !== id;
             }
         );
-
 
     saveSchedules();
 
@@ -539,6 +540,49 @@ function highlightToday() {
 
             card.classList.remove(
                 "today-session"
+            );
+
+        }
+
+    });
+}
+
+
+/* =========================
+   WEEK DAYS
+========================= */
+
+function highlightCurrentDay() {
+
+    const today =
+        new Date().toLocaleDateString(
+            "en-US",
+            {
+                weekday: "long"
+            }
+        );
+
+
+    const days =
+        document.querySelectorAll(
+            ".week-day"
+        );
+
+
+    days.forEach(function(day) {
+
+        if (
+            day.dataset.weekday === today
+        ) {
+
+            day.classList.add(
+                "active-day"
+            );
+
+        } else {
+
+            day.classList.remove(
+                "active-day"
             );
 
         }
@@ -703,6 +747,9 @@ let savedNotes =
     ) || [];
 
 
+let editingNoteId = null;
+
+
 function saveNote() {
 
     const title =
@@ -731,18 +778,65 @@ function saveNote() {
     }
 
 
-    const newNote = {
+    /* EDIT EXISTING NOTE */
 
-        id: Date.now(),
+    if (editingNoteId !== null) {
 
-        title: title,
+        savedNotes =
+            savedNotes.map(
+                function(note) {
 
-        text: text
+                    if (
+                        note.id === editingNoteId
+                    ) {
 
-    };
+                        return {
+
+                            id: note.id,
+
+                            title: title,
+
+                            text: text
+
+                        };
+
+                    }
+
+                    return note;
+
+                }
+            );
 
 
-    savedNotes.push(newNote);
+        editingNoteId = null;
+
+        document.querySelector(
+            ".notes-container .olive-button"
+        ).textContent = "Save Note";
+
+    }
+
+
+    /* CREATE NEW NOTE */
+
+    else {
+
+        const newNote = {
+
+            id: Date.now(),
+
+            title: title,
+
+            text: text
+
+        };
+
+
+        savedNotes.push(
+            newNote
+        );
+
+    }
 
 
     localStorage.setItem(
@@ -764,12 +858,17 @@ function saveNote() {
 }
 
 
+/* =========================
+   DISPLAY NOTES
+========================= */
+
 function displayNotes() {
 
     const container =
         document.getElementById(
             "savedNotes"
         );
+
 
     if (!container) {
         return;
@@ -803,12 +902,24 @@ function displayNotes() {
             </div>
 
 
-            <button
-                class="delete-button"
-                onclick="deleteNote(${note.id})"
-            >
-                Delete
-            </button>
+            <div class="note-actions">
+
+                <button
+                    class="edit-button"
+                    onclick="editNote(${note.id})"
+                >
+                    Edit
+                </button>
+
+
+                <button
+                    class="delete-button"
+                    onclick="deleteNote(${note.id})"
+                >
+                    Delete
+                </button>
+
+            </div>
 
         `;
 
@@ -819,7 +930,54 @@ function displayNotes() {
 }
 
 
-/* DELETE NOTE */
+/* =========================
+   EDIT NOTE
+========================= */
+
+function editNote(id) {
+
+    const note =
+        savedNotes.find(
+            function(item) {
+                return item.id === id;
+            }
+        );
+
+
+    if (!note) {
+        return;
+    }
+
+
+    document.getElementById(
+        "noteTitle"
+    ).value = note.title;
+
+
+    document.getElementById(
+        "noteText"
+    ).value = note.text;
+
+
+    editingNoteId = id;
+
+
+    document.querySelector(
+        ".notes-container .olive-button"
+    ).textContent = "Update Note";
+
+
+    document.getElementById(
+        "notes"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================
+   DELETE NOTE
+========================= */
 
 function deleteNote(id) {
 
@@ -872,56 +1030,17 @@ displaySchedules();
 
 displayNotes();
 
+highlightCurrentDay();
+
 requestNotificationPermission();
 
 checkStudyTime();
 
 
+/* CHECK REMINDER EVERY MINUTE */
+
 setInterval(
     checkStudyTime,
     60000
 );
-/* =========================
-   HIGHLIGHT CURRENT DAY
-========================= */
 
-function highlightCurrentDay() {
-
-    const today =
-        new Date().toLocaleDateString(
-            "en-US",
-            {
-                weekday: "long"
-            }
-        );
-
-
-    const days =
-        document.querySelectorAll(
-            ".week-day"
-        );
-
-
-    days.forEach(function(day) {
-
-        if (
-            day.dataset.weekday === today
-        ) {
-
-            day.classList.add(
-                "active-day"
-            );
-
-        } else {
-
-            day.classList.remove(
-                "active-day"
-            );
-
-        }
-
-    });
-}
-
-
-highlightCurrentDay();
